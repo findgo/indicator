@@ -2,3 +2,7 @@
 /proj/Listings
 /proj/Objects
 /proj/bin
+/Drivers/CMSIS
+/Drivers
+/MDK-ARM/indicator_f0
+/MDK-ARM/DebugConfig
