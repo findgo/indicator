@@ -18,7 +18,7 @@
           <Vendor>STMicroelectronics</Vendor>
           <PackID>Keil.STM32F0xx_DFP.2.0.0</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
-          <Cpu>IRAM(0x20000000-0x20001FFF) IROM(0x8000000-0x800FFFF)  CLOCK(8000000) CPUTYPE("Cortex-M0")</Cpu>
+          <Cpu>IRAM(0x20000000-0x20001FFF) IROM(0x8000000-0x800FFFF) CLOCK(8000000) CPUTYPE("Cortex-M0")</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
           <FlashDriverDll></FlashDriverDll>
@@ -48,7 +48,7 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\indicator_f0\</OutputDirectory>
+          <OutputDirectory>indicator_f0\</OutputDirectory>
           <OutputName>indicator_f0</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
@@ -335,9 +335,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_FULL_LL_DRIVER,STM32F030x8,HSE_VALUE=8000000,HSE_STARTUP_TIMEOUT=100,LSE_STARTUP_TIMEOUT=5000,LSE_VALUE=32768,HSI_VALUE=8000000,LSI_VALUE=40000,VDD_VALUE=3300,PREFETCH_ENABLE=1,INSTRUCTION_CACHE_ENABLE=0,DATA_CACHE_ENABLE=0</Define>
+              <Define>USE_FULL_LL_DRIVER,HSE_VALUE=8000000,HSE_STARTUP_TIMEOUT=100,LSE_STARTUP_TIMEOUT=5000,LSE_VALUE=32768,HSI_VALUE=8000000,LSI_VALUE=40000,VDD_VALUE=3300,PREFETCH_ENABLE=1,INSTRUCTION_CACHE_ENABLE=0,DATA_CACHE_ENABLE=0,STM32F030x8</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc; ../Drivers/STM32F0xx_HAL_Driver/Inc; ../Drivers/CMSIS/Device/ST/STM32F0xx/Include; ../Drivers/CMSIS/Include</IncludePath>
+              <IncludePath>../Inc;../Drivers/STM32F0xx_HAL_Driver/Inc;../Drivers/CMSIS/Device/ST/STM32F0xx/Include;../Drivers/CMSIS/Include;..\bxCommon;..\bxDriver;..\bxModule;..\bxModule\mo;..\bxLib\UGUI</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -389,15 +389,27 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>::CMSIS</GroupName>
-        </Group>
-        <Group>
           <GroupName>Application/User</GroupName>
           <Files>
             <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/main.c</FilePath>
+            </File>
+            <File>
+              <FileName>gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Src/gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Src/spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Src/usart.c</FilePath>
             </File>
             <File>
               <FileName>stm32f0xx_it.c</FileName>
@@ -435,6 +447,11 @@
               <FilePath>../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_exti.c</FilePath>
             </File>
             <File>
+              <FileName>stm32f0xx_ll_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_usart.c</FilePath>
+            </File>
+            <File>
               <FileName>stm32f0xx_ll_rcc.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_rcc.c</FilePath>
@@ -455,6 +472,84 @@
               <FilePath>../Src/system_stm32f0xx.c</FilePath>
             </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>bxDriver</GroupName>
+          <Files>
+            <File>
+              <FileName>bxusart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxDriver\bxusart.c</FilePath>
+            </File>
+            <File>
+              <FileName>drv12864.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxDriver\drv12864.c</FilePath>
+            </File>
+            <File>
+              <FileName>hal_spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxDriver\hal_spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>indicator.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxDriver\indicator.c</FilePath>
+            </File>
+            <File>
+              <FileName>loop.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxDriver\loop.c</FilePath>
+            </File>
+            <File>
+              <FileName>systick.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxDriver\systick.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>bxModule</GroupName>
+          <Files>
+            <File>
+              <FileName>Mserial.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxModule\Mserial.c</FilePath>
+            </File>
+            <File>
+              <FileName>port_atom.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxModule\port_atom.c</FilePath>
+            </File>
+            <File>
+              <FileName>delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxModule\delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxModule\mo\task.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>bxUgui</GroupName>
+          <Files>
+            <File>
+              <FileName>ugui.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxLib\UGUI\ugui.c</FilePath>
+            </File>
+            <File>
+              <FileName>ugui_lowdrv.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxLib\UGUI\ugui_lowdrv.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>::CMSIS</GroupName>
         </Group>
       </Groups>
     </Target>

@@ -1,9 +1,14 @@
-/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file    stm32f0xx_it.h
-  * @brief   This file contains the headers of the interrupt handlers.
+  * File Name          : gpio.h
+  * Description        : This file contains all the functions prototypes for 
+  *                      the gpio  
   ******************************************************************************
+  ** This notice applies to any and all portions of this file
+  * that are not between comment pairs USER CODE BEGIN and
+  * USER CODE END. Other portions of this file, whether 
+  * inserted by the user or by software development tools
+  * are owned by their respective copyright owners.
   *
   * COPYRIGHT(c) 2018 STMicroelectronics
   *
@@ -31,54 +36,42 @@
   *
   ******************************************************************************
   */
-/* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __STM32F0xx_IT_H
-#define __STM32F0xx_IT_H
-
+#ifndef __gpio_H
+#define __gpio_H
 #ifdef __cplusplus
  extern "C" {
-#endif 
+#endif
 
-/* Private includes ----------------------------------------------------------*/
+/* Includes ------------------------------------------------------------------*/
+#include "main.h"
+
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
 
-#include "stm32f0xx_ll_system.h"
-#include "stm32f0xx_ll_gpio.h"
-#include "stm32f0xx_ll_exti.h"
-/* Exported types ------------------------------------------------------------*/
-/* USER CODE BEGIN ET */
+/* USER CODE BEGIN Private defines */
 
-/* USER CODE END ET */
+/* USER CODE END Private defines */
 
-/* Exported constants --------------------------------------------------------*/
-/* USER CODE BEGIN EC */
+void MX_GPIO_Init(void);
 
-/* USER CODE END EC */
+/* USER CODE BEGIN Prototypes */
 
-/* Exported macro ------------------------------------------------------------*/
-/* USER CODE BEGIN EM */
-
-/* USER CODE END EM */
-
-/* Exported functions prototypes ---------------------------------------------*/
-void NMI_Handler(void);
-void HardFault_Handler(void);
-void SVC_Handler(void);
-void PendSV_Handler(void);
-void SysTick_Handler(void);
-void USART2_IRQHandler(void);
-/* USER CODE BEGIN EFP */
-
-/* USER CODE END EFP */
+/* USER CODE END Prototypes */
 
 #ifdef __cplusplus
 }
 #endif
+#endif /*__ pinoutConfig_H */
 
-#endif /* __STM32F0xx_IT_H */
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

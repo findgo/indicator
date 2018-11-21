@@ -58,6 +58,7 @@ extern "C" {
 #include "stm32f0xx_ll_pwr.h"
 #include "stm32f0xx_ll_dma.h"
 #include "stm32f0xx_ll_spi.h"
+#include "stm32f0xx_ll_usart.h"
 #include "stm32f0xx_ll_gpio.h"
 
 #if defined(USE_FULL_ASSERT)
@@ -92,8 +93,8 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define B1_Pin LL_GPIO_PIN_0
-#define B1_GPIO_Port GPIOA
+#define LCD_RESET_Pin LL_GPIO_PIN_11
+#define LCD_RESET_GPIO_Port GPIOB
 #define LCD_CS_Pin LL_GPIO_PIN_12
 #define LCD_CS_GPIO_Port GPIOB
 #define LCD_SCK_Pin LL_GPIO_PIN_13
@@ -102,10 +103,6 @@ void Error_Handler(void);
 #define LCD_RS_GPIO_Port GPIOB
 #define LCD_MOSI_Pin LL_GPIO_PIN_15
 #define LCD_MOSI_GPIO_Port GPIOB
-#define LD4_Pin LL_GPIO_PIN_8
-#define LD4_GPIO_Port GPIOC
-#define LD3_Pin LL_GPIO_PIN_9
-#define LD3_GPIO_Port GPIOC
 #define SWDIO_Pin LL_GPIO_PIN_13
 #define SWDIO_GPIO_Port GPIOA
 #define SWCLK_Pin LL_GPIO_PIN_14

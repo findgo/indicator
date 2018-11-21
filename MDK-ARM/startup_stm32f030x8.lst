@@ -373,12 +373,12 @@ ARM Macro Assembler    Page 6
               00000000 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M0 --apcs=interw
-ork --depend=.\indicator_f0\startup_stm32f030x8.d -o.\indicator_f0\startup_stm3
-2f030x8.o -I.\RTE\_indicator_f0 -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Cor
-e\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\S
-T\STM32F0xx\Include --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERS
-ION SETA 525" --predefine="_RTE_ SETA 1" --predefine="STM32F030x8 SETA 1" --lis
-t=startup_stm32f030x8.lst startup_stm32f030x8.s
+ork --depend=indicator_f0\startup_stm32f030x8.d -oindicator_f0\startup_stm32f03
+0x8.o -I.\RTE\_indicator_f0 -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\In
+clude -IC:\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\ST
+M32F0xx\Include --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION 
+SETA 525" --predefine="_RTE_ SETA 1" --predefine="STM32F030x8 SETA 1" --list=st
+artup_stm32f030x8.lst startup_stm32f030x8.s
 
 
 
