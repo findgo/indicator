@@ -4,7 +4,7 @@
  *      *** Do not modify ! ***
  *
  * Project: 'indicator_stm32CubeMx' 
- * Target:  'indicator_f0' 
+ * Target:  'indicator_stm32CubeMx' 
  */
 
 #ifndef RTE_COMPONENTS_H

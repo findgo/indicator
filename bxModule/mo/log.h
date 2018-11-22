@@ -53,9 +53,9 @@ void log_ll(uint8_t level,const char *format,...);
 
 
 // 定义一个外部初始化
-#define lowlogInit() do {SerialDrvInit(COM2, 115200, 8, DRV_PAR_NONE); log_set_max_level(LOG_LEVEL_ALERT); }while(0)
+#define lowlogInit() do {SerialDrvInit(COM1, 115200, 8, DRV_PAR_NONE); log_set_max_level(LOG_LEVEL_ALERT); }while(0)
 // 重定向fput的字符
-#define lowlogputChar(c) Serial_WriteByte(COM2,c);
+#define lowlogputChar(c) Serial_WriteByte(COM1,c);
 
 
 #ifdef __cplusplus

@@ -7,7 +7,7 @@
 
   <Targets>
     <Target>
-      <TargetName>indicator_f0</TargetName>
+      <TargetName>indicator_stm32CubeMx</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <pCCUsed>5060750::V5.06 update 6 (build 750)::ARMCC</pCCUsed>
@@ -18,7 +18,7 @@
           <Vendor>STMicroelectronics</Vendor>
           <PackID>Keil.STM32F0xx_DFP.2.0.0</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
-          <Cpu>IRAM(0x20000000-0x20001FFF) IROM(0x8000000-0x800FFFF) CLOCK(8000000) CPUTYPE("Cortex-M0")</Cpu>
+          <Cpu>IRAM(0x20000000-0x20001FFF) IROM(0x8000000-0x800FFFF)  CLOCK(8000000) CPUTYPE("Cortex-M0")</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
           <FlashDriverDll></FlashDriverDll>
@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>USE_FULL_LL_DRIVER,HSE_VALUE=8000000,HSE_STARTUP_TIMEOUT=100,LSE_STARTUP_TIMEOUT=5000,LSE_VALUE=32768,HSI_VALUE=8000000,LSI_VALUE=40000,VDD_VALUE=3300,PREFETCH_ENABLE=1,INSTRUCTION_CACHE_ENABLE=0,DATA_CACHE_ENABLE=0,STM32F030x8</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../Drivers/STM32F0xx_HAL_Driver/Inc;../Drivers/CMSIS/Device/ST/STM32F0xx/Include;../Drivers/CMSIS/Include;..\bxCommon;..\bxDriver;..\bxModule;..\bxModule\mo;..\bxLib\UGUI</IncludePath>
+              <IncludePath>../Inc; ../Drivers/STM32F0xx_HAL_Driver/Inc; ../Drivers/CMSIS/Device/ST/STM32F0xx/Include; ../Drivers/CMSIS/Include; ..\bxCommon; ..\bxDriver; ..\bxModule; ..\bxModule\mo; ..\bxLib\UGUI;../Core/Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -385,36 +385,6 @@
               <FileName>startup_stm32f030x8.s</FileName>
               <FileType>2</FileType>
               <FilePath>startup_stm32f030x8.s</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Application/User</GroupName>
-          <Files>
-            <File>
-              <FileName>main.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Src/main.c</FilePath>
-            </File>
-            <File>
-              <FileName>gpio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Src/gpio.c</FilePath>
-            </File>
-            <File>
-              <FileName>spi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Src/spi.c</FilePath>
-            </File>
-            <File>
-              <FileName>usart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Src/usart.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f0xx_it.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Src/stm32f0xx_it.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -469,7 +439,7 @@
             <File>
               <FileName>system_stm32f0xx.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../Src/system_stm32f0xx.c</FilePath>
+              <FilePath>../Core/Src/system_stm32f0xx.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -506,11 +476,26 @@
               <FileType>1</FileType>
               <FilePath>..\bxDriver\systick.c</FilePath>
             </File>
+            <File>
+              <FileName>hmi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxDriver\hmi.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>bxModule</GroupName>
           <Files>
+            <File>
+              <FileName>list.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxModule\mo\list.c</FilePath>
+            </File>
+            <File>
+              <FileName>msglink.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxModule\mo\msglink.c</FilePath>
+            </File>
             <File>
               <FileName>Mserial.c</FileName>
               <FileType>1</FileType>
@@ -531,6 +516,36 @@
               <FileType>1</FileType>
               <FilePath>..\bxModule\mo\task.c</FilePath>
             </File>
+            <File>
+              <FileName>log.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxModule\mo\log.c</FilePath>
+            </File>
+            <File>
+              <FileName>timers.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxModule\mo\timers.c</FilePath>
+            </File>
+            <File>
+              <FileName>queue.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxModule\mo\queue.c</FilePath>
+            </File>
+            <File>
+              <FileName>heap_4.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxModule\mo\heap_4.c</FilePath>
+            </File>
+            <File>
+              <FileName>memalloc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxModule\mo\memalloc.c</FilePath>
+            </File>
+            <File>
+              <FileName>mclock.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxModule\mclock.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -549,6 +564,36 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Application/User/Core</GroupName>
+          <Files>
+            <File>
+              <FileName>main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Core/Src/main.c</FilePath>
+            </File>
+            <File>
+              <FileName>gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Core/Src/gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Core/Src/spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Core/Src/usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f0xx_it.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Core/Src/stm32f0xx_it.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>::CMSIS</GroupName>
         </Group>
       </Groups>
@@ -561,7 +606,7 @@
       <component Cclass="CMSIS" Cgroup="CORE" Cvendor="ARM" Cversion="4.3.0" condition="CMSIS Core">
         <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="4.5.0"/>
         <targetInfos>
-          <targetInfo name="indicator_f0"/>
+          <targetInfo name="indicator_stm32CubeMx"/>
         </targetInfos>
       </component>
     </components>

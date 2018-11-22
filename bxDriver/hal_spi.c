@@ -4,7 +4,6 @@
 void halSPI1_Init(uint16_t baud)
 {
     // see stm32CubeMX
-    MX_SPI2_Init();
 }
 
 uint8_t halSPI1_ReadWrite(uint8_t writedat)
@@ -29,6 +28,7 @@ uint8_t halSPI1_ReadWrite(uint8_t writedat)
 void halSPI2_Init(uint16_t baud)
 {
     // see stm32CubeMX
+    MX_SPI2_Init();
 }
 uint8_t halSPI2_ReadWrite(uint8_t writedat)
 {
