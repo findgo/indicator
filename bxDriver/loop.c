@@ -1,10 +1,6 @@
 
 #include "loop.h"
-// for stm32CubeMX driver
-#include "main.h"
-#include "spi.h"
-#include "usart.h"
-#include "gpio.h"
+#include "app_cfg.h"
 
 //for module
 #include "task.h"
@@ -47,9 +43,7 @@ void tasks_init_System(void)
     
     tasksEvents = (uint16_t *)mo_malloc( sizeof( uint16_t ) * tasksCnt);
     memset( tasksEvents, 0, (sizeof( uint16_t ) * tasksCnt));
-#endif
-
-    
+#endif  
     Systick_Configuration();
     log_Init();
 
@@ -76,10 +70,7 @@ void tasksPoll(void)
 
 int main(void)
 {
-  /* USER CODE BEGIN 1 */
-
-  /* USER CODE END 1 */
-
+  // for stm32cubeMX init must be init first
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
@@ -103,15 +94,18 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_SPI2_Init();
-  MX_USART2_UART_Init();
+ // MX_SPI2_Init();
+ // MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   tasks_init_System();
   /* USER CODE END 2 */
   
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  tasks_Run_System();
+  while (1)
+  {
+    tasks_Run_System();
+  }
   /* USER CODE END 3 */
 }
 

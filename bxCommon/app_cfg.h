@@ -32,7 +32,7 @@
 
 //for stm32Cube drivers
 #include "gpio.h"
-#include "spi.h"
+//#include "spi.h"
 #include "usart.h"
 
 

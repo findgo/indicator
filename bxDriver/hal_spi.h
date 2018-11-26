@@ -63,9 +63,9 @@
 #define HAL_SPI2_CS_ASSERT()        HAL_SPI2_CS_LOW()
 
 
-void halSPI1_Init(uint16_t baud);						// SPI1初始化
+void halSPI1_Init(void);						// SPI1初始化
 uint8_t halSPI1_ReadWrite(uint8_t writedat);			// SPI1读写一字节数据
-void halSPI2_Init(uint16_t baud);
+void halSPI2_Init(void);
 uint8_t halSPI2_ReadWrite(uint8_t writedat);
 
 #endif

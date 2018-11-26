@@ -57,7 +57,6 @@ extern "C" {
 #include "stm32f0xx_ll_utils.h"
 #include "stm32f0xx_ll_pwr.h"
 #include "stm32f0xx_ll_dma.h"
-#include "stm32f0xx_ll_spi.h"
 #include "stm32f0xx_ll_usart.h"
 #include "stm32f0xx_ll_gpio.h"
 
@@ -93,16 +92,16 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define LCD_RESET_Pin LL_GPIO_PIN_11
-#define LCD_RESET_GPIO_Port GPIOB
 #define LCD_CS_Pin LL_GPIO_PIN_12
 #define LCD_CS_GPIO_Port GPIOB
 #define LCD_SCK_Pin LL_GPIO_PIN_13
 #define LCD_SCK_GPIO_Port GPIOB
-#define LCD_RS_Pin LL_GPIO_PIN_14
-#define LCD_RS_GPIO_Port GPIOB
 #define LCD_MOSI_Pin LL_GPIO_PIN_15
 #define LCD_MOSI_GPIO_Port GPIOB
+#define LCD_RS_Pin LL_GPIO_PIN_6
+#define LCD_RS_GPIO_Port GPIOC
+#define LCD_RESET_Pin LL_GPIO_PIN_7
+#define LCD_RESET_GPIO_Port GPIOC
 #define SWDIO_Pin LL_GPIO_PIN_13
 #define SWDIO_GPIO_Port GPIOA
 #define SWCLK_Pin LL_GPIO_PIN_14

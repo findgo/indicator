@@ -22,9 +22,47 @@
   */
 uint8_t SerialDrvInit(uint8_t port, uint32_t ulBaudRate, uint8_t ucDataBits, DRV_Parity_t eParity)
 {
-    // see stm32CubeMX
-    return Success;
+    (void)port; 
+    (void)ulBaudRate; 
+    (void)ucDataBits; 
+    (void)eParity;   
+    
+    switch (port){
+    case COM0:
+//        MX_USART1_UART_Init();
+
+        LL_USART_ClearFlag_TC(USART_USING1);
+        LL_USART_DisableIT_TXE(USART_USING1);
+        LL_USART_DisableIT_TC(USART_USING1);
+        LL_USART_EnableIT_RXNE(USART_USING1);
+        break;
+        
+    case COM1:
+        MX_USART2_UART_Init();
+        
+        LL_USART_ClearFlag_TC(USART_USING2);
+        LL_USART_DisableIT_TXE(USART_USING2);
+        LL_USART_DisableIT_TC(USART_USING2);
+        LL_USART_EnableIT_RXNE(USART_USING2);
+        break;
+         
+    case COM2:
+//        MX_USART3_UART_Init();
+        
+//        LL_USART_ClearFlag_TC(USART_USING3);
+//        LL_USART_DisableIT_TXE((USART_USING3));
+//        LL_USART_DisableIT_TC((USART_USING3));
+//        LL_USART_EnableIT_RXNE((USART_USING3));
+        break;       
+        
+     default:
+        return FALSE;
+        
+    }
+
+  return TRUE;
 }
+
 
 /**
   * @brief  send a byte to usart

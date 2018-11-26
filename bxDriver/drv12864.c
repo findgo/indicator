@@ -1,21 +1,22 @@
 
 #include "drv12864.h"
 #include "hal_spi.h"
+#include "hal_simspi.h"
 #include "delay.h"
 
 #define HAL_drv12864_WIDE_TIME()  delay_hunns(1)
 
-#define HAL_drv12864_RS_PORT    GPIOB
-#define HAL_drv12864_RS_PIN     GPIO_Pin_14
+#define HAL_drv12864_RS_PORT    GPIOC
+#define HAL_drv12864_RS_PIN     LL_GPIO_PIN_6
 
 // 定义基本接口,根据需要修改
-#define HAL_drv12864_RS_HIGH()          LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_14)//(PBout(14) = 1)  // 数据寄存器
-#define HAL_drv12864_RS_LOW()           LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_14)//(PBout(14) = 0) // 指令寄存器
+#define HAL_drv12864_RS_HIGH()          LL_GPIO_SetOutputPin(HAL_drv12864_RS_PORT, HAL_drv12864_RS_PIN) // 数据寄存器
+#define HAL_drv12864_RS_LOW()           LL_GPIO_ResetOutputPin(HAL_drv12864_RS_PORT, HAL_drv12864_RS_PIN)// 指令寄存器
 #define HAL_drv12864_CS_ASSERT()        HAL_SPI2_CS_ASSERT()
 #define HAL_drv12864_CS_DEASSERT()      HAL_SPI2_CS_DEASSERT()
-#define HAL_drv12864_RESET_HIGH()       LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_11)
-#define HAL_drv12864_RESET_LOW()        LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_11)
-#define HAL_drv12864_SPI_transmit(dat)  halSPI2_ReadWrite(dat);
+#define HAL_drv12864_RESET_HIGH()       LL_GPIO_SetOutputPin(GPIOC, LL_GPIO_PIN_7)
+#define HAL_drv12864_RESET_LOW()        LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_7)
+#define HAL_drv12864_SPI_transmit(dat)  halsimSpi_transmit_byte(dat) //halSPI2_ReadWrite(dat);
 
 #define drv12864SendCmd(cmd)    drv12864Send(TRUE,cmd)
 #define drv12864SendData(data)  drv12864Send(FALSE,data)
@@ -27,7 +28,8 @@ void drv12864Show(char *dp);
 
 void drv12864Init(void)
 {
-    //halSPI2_Init(SPI_BaudRatePrescaler_4);// see stm32CubeMX
+    //halSPI2_Init();// see stm32CubeMX
+    halsimspiInit();
 
     // 用引脚复位??   要使用硬件
     HAL_drv12864_RESET_HIGH();
@@ -100,7 +102,7 @@ void drv12864ClearScreen(void)
         HAL_drv12864_RS_HIGH();
         HAL_drv12864_WIDE_TIME();
         for(j = 0; j < (DRV12864_COL_ADDR_MAX + 4 ); j++){
-            HAL_drv12864_SPI_transmit(0x00);
+            HAL_drv12864_SPI_transmit(0xaa);
             HAL_drv12864_WIDE_TIME();
         }        
         HAL_drv12864_CS_DEASSERT(); 
