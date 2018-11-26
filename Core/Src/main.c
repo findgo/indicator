@@ -40,7 +40,11 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "adc.h"
+#include "dma.h"
+#include "spi.h"
 #include "usart.h"
+#include "wwdg.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -85,6 +89,7 @@ void SystemClock_Config(void);
   * @retval int
   */
 
+
 /**
   * @brief System Clock Configuration
   * @retval None
@@ -104,6 +109,14 @@ void SystemClock_Config(void)
   {
     
   }
+  LL_RCC_HSI14_Enable();
+
+   /* Wait till HSI14 is ready */
+  while(LL_RCC_HSI14_IsReady() != 1)
+  {
+    
+  }
+  LL_RCC_HSI14_SetCalibTrimming(16);
   LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE_DIV_1, LL_RCC_PLL_MUL_6);
   LL_RCC_PLL_Enable();
 
@@ -124,6 +137,8 @@ void SystemClock_Config(void)
   LL_Init1msTick(48000000);
   LL_SYSTICK_SetClkSource(LL_SYSTICK_CLKSOURCE_HCLK);
   LL_SetSystemCoreClock(48000000);
+  LL_RCC_HSI14_EnableADCControl();
+  LL_RCC_SetUSARTClockSource(LL_RCC_USART1_CLKSOURCE_PCLK1);
 }
 
 /* USER CODE BEGIN 4 */

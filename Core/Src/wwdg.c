@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : USART.h
+  * File Name          : WWDG.c
   * Description        : This file provides code for the configuration
-  *                      of the USART instances.
+  *                      of the WWDG instances.
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
@@ -36,42 +36,30 @@
   *
   ******************************************************************************
   */
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __usart_H
-#define __usart_H
-#ifdef __cplusplus
- extern "C" {
-#endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "main.h"
+#include "wwdg.h"
 
-/* USER CODE BEGIN Includes */
+/* USER CODE BEGIN 0 */
 
-/* USER CODE END Includes */
+/* USER CODE END 0 */
 
-/* USER CODE BEGIN Private defines */
+/* WWDG init function */
+void MX_WWDG_Init(void)
+{
 
-/* USER CODE END Private defines */
+  /* Peripheral clock enable */
+  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_WWDG);
 
-void MX_USART1_UART_Init(void);
-void MX_USART2_UART_Init(void);
+  LL_WWDG_SetCounter(WWDG, 64);
+  LL_WWDG_Enable(WWDG);
+  LL_WWDG_SetPrescaler(WWDG, LL_WWDG_PRESCALER_8);
+  LL_WWDG_SetWindow(WWDG, 64);
 
-/* USER CODE BEGIN Prototypes */
-
-/* USER CODE END Prototypes */
-
-#ifdef __cplusplus
 }
-#endif
-#endif /*__ usart_H */
 
-/**
-  * @}
-  */
+/* USER CODE BEGIN 1 */
 
-/**
-  * @}
-  */
+/* USER CODE END 1 */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

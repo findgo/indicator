@@ -19,6 +19,15 @@
 #include "common_type.h"
 #include "port_atom.h"
 
+//for stm32Cube drivers
+#include "gpio.h"
+//#include "spi.h"
+#include "usart.h"
+#include "dma.h"
+#include "adc.h"
+#include "main.h"
+#include "wwdg.h"
+
 //!< util
 //#include "util_bits.h"
 //!< for delay
@@ -30,10 +39,6 @@
 #include "loop.h"
 
 
-//for stm32Cube drivers
-#include "gpio.h"
-//#include "spi.h"
-#include "usart.h"
 
 
 #endif

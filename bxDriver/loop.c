@@ -94,7 +94,12 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
- // MX_SPI2_Init();
+//  MX_DMA_Init();
+//  MX_USART2_UART_Init();
+//  MX_ADC_Init();
+//  MX_USART1_UART_Init();
+//  MX_SPI2_Init();
+//  MX_WWDG_Init();
  // MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   tasks_init_System();
