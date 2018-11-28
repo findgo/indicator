@@ -542,10 +542,15 @@
               <FileType>1</FileType>
               <FilePath>..\bxDriver\hmi.c</FilePath>
             </File>
+            <File>
+              <FileName>bxmisc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxDriver\bxmisc.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>bxModule</GroupName>
+          <GroupName>bxModule/mo</GroupName>
           <Files>
             <File>
               <FileName>list.c</FileName>
@@ -556,21 +561,6 @@
               <FileName>msglink.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\bxModule\mo\msglink.c</FilePath>
-            </File>
-            <File>
-              <FileName>Mserial.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\bxModule\Mserial.c</FilePath>
-            </File>
-            <File>
-              <FileName>port_atom.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\bxModule\port_atom.c</FilePath>
-            </File>
-            <File>
-              <FileName>delay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\bxModule\delay.c</FilePath>
             </File>
             <File>
               <FileName>task.c</FileName>
@@ -602,10 +592,40 @@
               <FileType>1</FileType>
               <FilePath>..\bxModule\mo\memalloc.c</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>bxModule</GroupName>
+          <Files>
+            <File>
+              <FileName>Mserial.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxModule\Mserial.c</FilePath>
+            </File>
+            <File>
+              <FileName>port_atom.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxModule\port_atom.c</FilePath>
+            </File>
+            <File>
+              <FileName>delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxModule\delay.c</FilePath>
+            </File>
             <File>
               <FileName>mclock.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\bxModule\mclock.c</FilePath>
+            </File>
+            <File>
+              <FileName>bxleds.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxModule\bxleds.c</FilePath>
+            </File>
+            <File>
+              <FileName>mcoils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxModule\mcoils.c</FilePath>
             </File>
           </Files>
         </Group>

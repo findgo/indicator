@@ -10,6 +10,7 @@
   * @attention      v1.2   	jgb		抽像宏，减少用户介入                            20170429
   * @attention      v1.3   	jgb		修改一些宏,增加对事件添加的抽像层                     20170522
   * @attention      v1.4   	jgb		修改基本时基处理,API更简洁,减少用户理解, 添加配置闪烁宏
+  * @attention      v1.5   	jgb		对于configBLINK_LED未使能,宏大于等于MLED_MODE_TOGGLE 值均认为是切换动作
   ******************************************************************************
   */
 /*
@@ -30,10 +31,10 @@
 //#include "hal_led.h"
 
 // Enable blink led
-#define configBLINK_LED         1
+#define configBLINK_LED     (0)
 
 
-/* Defaults */
+/* Defaults max 8 */
 #define mLEDSNUM   1
 
 /* leds - The leds number is the same as the bit position */

@@ -98,10 +98,6 @@ void mledset(uint8_t leds, MledMode_t mode)
 #else
     uint8_t led;
 
-    // no blink, do nothing
-    if( mode > MLED_MODE_TOGGLE)
-        return;
-
     // on or off 
     if( mode < MLED_MODE_TOGGLE ) {
         ledlowOnOff (leds, mode);
@@ -275,49 +271,89 @@ static void ledlowOnOff( uint8_t leds, uint8_t val )
 {
 #if (mLEDSNUM >= 1)
     if (leds & MLED_1){
-        val ? MTURN_LED1_ON() : MTURN_LED1_OFF();
+        if(val){
+            MTURN_LED1_ON();
+        }
+        else{
+            MTURN_LED1_OFF();
+        }
     }
 #endif
 
 #if (mLEDSNUM >= 2)
     if (leds & MLED_2){
-        val ? MTURN_LED2_ON() : MTURN_LED2_OFF();
+        if(val){
+            MTURN_LED2_ON();
+        }
+        else{
+            MTURN_LED2_OFF();
+        }
     }
 #endif
 
 #if (mLEDSNUM >= 3) 
     if (leds & MLED_3){
-        val ? MTURN_LED3_ON() : MTURN_LED3_OFF();
+        if(val){
+            MTURN_LED3_ON();
+        }
+        else{
+            MTURN_LED3_OFF();
+        }
     }
 #endif
 
 #if (mLEDSNUM >= 4) 
     if (leds & MLED_4){
-        val ? MTURN_LED4_ON() : MTURN_LED4_OFF();
+        if(val){
+            MTURN_LED4_ON();
+        }
+        else{
+            MTURN_LED4_OFF();
+        }
     }
 #endif
 
 #if (mLEDSNUM >= 5) 
     if (leds & MLED_5){
-        val ? MTURN_LED5_ON() : MTURN_LED5_OFF();
+        if(val){
+            MTURN_LED5_ON();
+        }
+        else{
+            MTURN_LED5_OFF();
+        }
     }
 #endif
 
 #if (mLEDSNUM >= 6) 
     if (leds & MLED_6){
-        val ? MTURN_LED6_ON() : MTURN_LED6_OFF();
+        if(val){
+            MTURN_LED6_ON();
+        }
+        else{
+            MTURN_LED6_OFF();
+        }
     }
 #endif
 
 #if (mLEDSNUM >= 7) 
     if (leds & MLED_7){
-        val ? MTURN_LED7_ON() : MTURN_LED7_OFF();
+        if(val){
+            MTURN_LED7_ON();
+        }
+        else{
+            MTURN_LED7_OFF();
+        }
     }
 #endif
 
 #if (mLEDSNUM >= 8)
     if (leds & MLED_8){
-        val ? MTURN_LED8_ON() : MTURN_LED8_OFF();
+        if(val){
+            MTURN_LED8_ON();
+        }
+        else{
+            MTURN_LED8_OFF();
+        }
    }
 #endif
 

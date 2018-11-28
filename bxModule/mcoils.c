@@ -25,10 +25,6 @@ void mCoilsSet (uint8_t Coils, mCoils_Mode_t mode)
 {
     uint8_t coil;
 
-    // no blink, do nothing
-    if( mode > MCOILS_MODE_TOGGLE)
-        return;
-
     // on or off 
     if( mode < MCOILS_MODE_TOGGLE ) {
         mCoilsOnOff (Coils, mode);
