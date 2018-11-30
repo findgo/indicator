@@ -557,6 +557,11 @@
               <FileType>1</FileType>
               <FilePath>..\bxDriver\bxmb.c</FilePath>
             </File>
+            <File>
+              <FileName>hal_adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxDriver\hal_adc.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
