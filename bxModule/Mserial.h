@@ -21,7 +21,7 @@
 
 
 // 宏 控制支持的串口数量
-#define COM_USE_NUM     2
+#define COM_USE_NUM     1
 
 
 

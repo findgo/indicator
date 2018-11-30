@@ -17,6 +17,12 @@
 #include "adc.h"
 #include "main.h"
 #include "wwdg.h"
+#include "tim.h"
+
+// 配置功能
+// 支持Modbus
+#define configSUPPORT_MODBUS           ( 1 )
+
 
 
 // dat0 - dat6 used in misc

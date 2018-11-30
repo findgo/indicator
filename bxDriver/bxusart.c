@@ -29,12 +29,13 @@ uint8_t SerialDrvInit(uint8_t port, uint32_t ulBaudRate, uint8_t ucDataBits, DRV
     
     switch (port){
     case COM0:
-//        MX_USART1_UART_Init();
+        MX_USART1_UART_Init();
 
         LL_USART_ClearFlag_TC(USART_USING1);
         LL_USART_DisableIT_TXE(USART_USING1);
         LL_USART_DisableIT_TC(USART_USING1);
         LL_USART_EnableIT_RXNE(USART_USING1);
+        LL_USART_Enable(USART_USING1);
         break;
         
     case COM1:
@@ -44,6 +45,7 @@ uint8_t SerialDrvInit(uint8_t port, uint32_t ulBaudRate, uint8_t ucDataBits, DRV
         LL_USART_DisableIT_TXE(USART_USING2);
         LL_USART_DisableIT_TC(USART_USING2);
         LL_USART_EnableIT_RXNE(USART_USING2);
+        LL_USART_Enable(USART_USING2);
         break;
          
     case COM2:
@@ -53,6 +55,8 @@ uint8_t SerialDrvInit(uint8_t port, uint32_t ulBaudRate, uint8_t ucDataBits, DRV
 //        LL_USART_DisableIT_TXE((USART_USING3));
 //        LL_USART_DisableIT_TC((USART_USING3));
 //        LL_USART_EnableIT_RXNE((USART_USING3));
+//        LL_USART_Enable(USART_USING3);
+
         break;       
         
      default:

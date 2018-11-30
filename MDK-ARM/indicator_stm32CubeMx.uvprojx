@@ -335,9 +335,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_FULL_LL_DRIVER,HSE_VALUE=8000000,HSE_STARTUP_TIMEOUT=100,LSE_STARTUP_TIMEOUT=5000,LSE_VALUE=32768,HSI_VALUE=8000000,LSI_VALUE=40000,VDD_VALUE=3300,PREFETCH_ENABLE=1,INSTRUCTION_CACHE_ENABLE=0,DATA_CACHE_ENABLE=0,STM32F030x8</Define>
+              <Define>USE_FULL_LL_DRIVER,STM32F030x8,HSE_VALUE=8000000,HSE_STARTUP_TIMEOUT=100,LSE_STARTUP_TIMEOUT=5000,LSE_VALUE=32768,HSI_VALUE=8000000,LSI_VALUE=40000,VDD_VALUE=3300,PREFETCH_ENABLE=1,INSTRUCTION_CACHE_ENABLE=0,DATA_CACHE_ENABLE=0</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;      ../Drivers/STM32F0xx_HAL_Driver/Inc;      ../Drivers/CMSIS/Device/ST/STM32F0xx/Include;      ../Drivers/CMSIS/Include;      ..\bxCommon;      ..\bxDriver;      ..\bxModule;      ..\bxModule\mo;      ..\bxLib\UGUI;     ../Core/Inc</IncludePath>
+              <IncludePath>../Inc;   ../Drivers/STM32F0xx_HAL_Driver/Inc;   ../Drivers/CMSIS/Device/ST/STM32F0xx/Include;   ../Drivers/CMSIS/Include;   ..\bxCommon;   ..\bxDriver;   ..\bxModule;   ..\bxModule\mo;   ..\bxLib\UGUI;   ../Core/Inc;   ..\bxLib\modbus\include;   ..\bxLib\modbus\include\rtu;   ..\bxLib\modbus\port</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -420,6 +420,11 @@
               <FileName>stm32f0xx_ll_exti.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_exti.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f0xx_ll_tim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_tim.c</FilePath>
             </File>
             <File>
               <FileName>stm32f0xx_ll_usart.c</FileName>
@@ -547,6 +552,11 @@
               <FileType>1</FileType>
               <FilePath>..\bxDriver\bxmisc.c</FilePath>
             </File>
+            <File>
+              <FileName>bxmb.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxDriver\bxmb.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -673,6 +683,11 @@
               <FilePath>../Core/Src/spi.c</FilePath>
             </File>
             <File>
+              <FileName>tim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Core/Src/tim.c</FilePath>
+            </File>
+            <File>
               <FileName>usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/usart.c</FilePath>
@@ -686,6 +701,61 @@
               <FileName>stm32f0xx_it.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/stm32f0xx_it.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>modbus</GroupName>
+          <Files>
+            <File>
+              <FileName>mbs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxLib\modbus\src\mbs.c</FilePath>
+            </File>
+            <File>
+              <FileName>mbsrtu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxLib\modbus\src\rtu\mbsrtu.c</FilePath>
+            </File>
+            <File>
+              <FileName>mbsfuncregs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxLib\modbus\src\func\mbsfuncregs.c</FilePath>
+            </File>
+            <File>
+              <FileName>mbsfuncother.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxLib\modbus\src\func\mbsfuncother.c</FilePath>
+            </File>
+            <File>
+              <FileName>mbsfuncbits.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxLib\modbus\src\func\mbsfuncbits.c</FilePath>
+            </File>
+            <File>
+              <FileName>mbsfunc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxLib\modbus\src\func\mbsfunc.c</FilePath>
+            </File>
+            <File>
+              <FileName>mbutils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxLib\modbus\src\func\mbutils.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>modbus/port</GroupName>
+          <Files>
+            <File>
+              <FileName>porttimer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxLib\modbus\port\porttimer.c</FilePath>
+            </File>
+            <File>
+              <FileName>portserial.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxLib\modbus\port\portserial.c</FilePath>
             </File>
           </Files>
         </Group>

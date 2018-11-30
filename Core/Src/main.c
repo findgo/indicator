@@ -43,6 +43,7 @@
 #include "adc.h"
 #include "dma.h"
 #include "spi.h"
+#include "tim.h"
 #include "usart.h"
 #include "wwdg.h"
 #include "gpio.h"
@@ -88,7 +89,6 @@ void SystemClock_Config(void);
   * @brief  The application entry point.
   * @retval int
   */
-
 
 /**
   * @brief System Clock Configuration

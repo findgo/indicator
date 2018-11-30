@@ -326,7 +326,7 @@ uint16_t Serial_Read( uint8_t COM, uint8_t *buf, uint16_t len )
     
     return length;
 }
-
+#if COM_USE_NUM > 0
 /***********only for Isr callback***********/
 /**
   * @brief  发送空中断调用函数
@@ -373,7 +373,8 @@ void COM0_RX_Isr_callback(void)
     SerialRxPut(&comcfg0,temp);
     isrEXIT_CRITICAL();
 }
-
+#endif
+#if COM_USE_NUM > 1
 /**
   * @brief  发送空中断调用函数
   * @param  None
@@ -419,8 +420,8 @@ void COM1_RX_Isr_callback(void)
     SerialRxPut(&comcfg1,temp);
     isrEXIT_CRITICAL();
 }
-
-#if 0
+#endif
+#if COM_USE_NUM > 2
 /**
   * @brief  发送空中断调用函数
   * @param  None
@@ -473,6 +474,8 @@ void COM2_RX_Isr_callback(void)
   * @param  None
   * @retval None
   */
+  
+#if COM_USE_NUM > 0
 void USART1_IRQHandler(void)
 {
     if(LL_USART_IsActiveFlag_TXE(USART1)){
@@ -488,6 +491,8 @@ void USART1_IRQHandler(void)
     }
     NVIC_ClearPendingIRQ(USART1_IRQn);
 }
+#endif
+#if COM_USE_NUM > 1
 void USART2_IRQHandler(void)
 {
     if(LL_USART_IsActiveFlag_TXE(USART2 ) ){
@@ -504,7 +509,8 @@ void USART2_IRQHandler(void)
     }
     NVIC_ClearPendingIRQ(USART2_IRQn);
 }
-#if 0
+#endif
+#if COM_USE_NUM > 2
 void USART3_IRQHandler(void)
 {
     if(LL_USART_IsActiveFlag_TXE(USART3)){

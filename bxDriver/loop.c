@@ -17,8 +17,9 @@
 //#include "nv.h"
 
 #include "hmi.h"
-
+#include "bxmb.h"
 //#include "SHT.h"
+
 
 
 
@@ -57,12 +58,14 @@ void tasks_init_System(void)
 
 //    mledset(MLED_1, MLED_MODE_FLASH);
 
+
     log_alertln("App start!");
 }
 void tasksPoll(void)
 {
     timerTask();
     UG_Update();
+    MbsPoll();
 //    SHT_PeriodicHandle();
 }
 
