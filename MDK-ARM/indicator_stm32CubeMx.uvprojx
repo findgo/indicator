@@ -652,6 +652,11 @@
               <FileType>1</FileType>
               <FilePath>..\bxModule\mkey.c</FilePath>
             </File>
+            <File>
+              <FileName>mcheck.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bxModule\mcheck.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
