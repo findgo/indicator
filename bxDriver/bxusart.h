@@ -19,10 +19,13 @@ typedef enum
 
 // for usart 1
 #define USART_USING1   					USART1
+#define USART_USING1_IRQ                USART1_IRQn
 // for usart 2
 #define USART_USING2   					USART2
+#define USART_USING2_IRQ                USART2_IRQn
 // for usart 3
 #define USART_USING3   					USART3
+#define USART_USING3_IRQ                USART3_IRQn
 
 uint8_t SerialDrvInit(uint8_t port, uint32_t ulBaudRate, uint8_t ucDataBits, DRV_Parity_t eParity);
 uint8_t SerialDrvPutByte(uint8_t port, char ucByte );

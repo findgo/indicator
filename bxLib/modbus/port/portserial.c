@@ -119,6 +119,7 @@ void USART2_IRQHandler(void)
     USART_ReceiveData(USART2);              //读DR
   }
   */
+    NVIC_ClearPendingIRQ(USART2_IRQn);
 }
 
 #endif

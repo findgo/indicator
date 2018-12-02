@@ -373,6 +373,22 @@ void COM0_RX_Isr_callback(void)
     SerialRxPut(&comcfg0,temp);
     isrEXIT_CRITICAL();
 }
+void USART1_IRQHandler(void)
+{
+    if(LL_USART_IsActiveFlag_TXE(USART1)){
+        COM0_TXE_Isr_callback();
+    }
+    
+    if(LL_USART_IsActiveFlag_RXNE(USART1)){
+        COM0_RX_Isr_callback();
+    }
+    if(LL_USART_IsActiveFlag_TC(USART1)){
+        COM0_TXC_Isr_callback();
+        LL_USART_ClearFlag_TC(USART1);
+    }
+    NVIC_ClearPendingIRQ(USART1_IRQn);
+}
+
 #endif
 #if COM_USE_NUM > 1
 /**
@@ -420,6 +436,23 @@ void COM1_RX_Isr_callback(void)
     SerialRxPut(&comcfg1,temp);
     isrEXIT_CRITICAL();
 }
+void USART2_IRQHandler(void)
+{
+    if(LL_USART_IsActiveFlag_TXE(USART2 ) ){
+        COM1_TXE_Isr_callback();
+    }
+    
+    if(LL_USART_IsActiveFlag_RXNE(USART2)){
+        COM1_RX_Isr_callback();
+    }
+    
+    if(LL_USART_IsActiveFlag_TC(USART1)){
+        COM1_TXC_Isr_callback();
+        LL_USART_ClearFlag_TC(USART1);
+    }
+    NVIC_ClearPendingIRQ(USART2_IRQn);
+}
+
 #endif
 #if COM_USE_NUM > 2
 /**
@@ -467,50 +500,6 @@ void COM2_RX_Isr_callback(void)
 //    SerialRxPut(&comcfg2,temp);
 //    isrEXIT_CRITICAL();
 }
-#endif
-
-/**
-  * @brief  This function handles usart interrupt request.
-  * @param  None
-  * @retval None
-  */
-  
-#if COM_USE_NUM > 0
-void USART1_IRQHandler(void)
-{
-    if(LL_USART_IsActiveFlag_TXE(USART1)){
-        COM0_TXE_Isr_callback();
-    }
-    
-    if(LL_USART_IsActiveFlag_RXNE(USART1)){
-        COM0_RX_Isr_callback();
-    }
-    if(LL_USART_IsActiveFlag_TC(USART1)){
-        COM0_TXC_Isr_callback();
-        LL_USART_ClearFlag_TC(USART1);
-    }
-    NVIC_ClearPendingIRQ(USART1_IRQn);
-}
-#endif
-#if COM_USE_NUM > 1
-void USART2_IRQHandler(void)
-{
-    if(LL_USART_IsActiveFlag_TXE(USART2 ) ){
-        COM1_TXE_Isr_callback();
-    }
-    
-    if(LL_USART_IsActiveFlag_RXNE(USART2)){
-        COM1_RX_Isr_callback();
-    }
-    
-    if(LL_USART_IsActiveFlag_TC(USART1)){
-        COM1_TXC_Isr_callback();
-        LL_USART_ClearFlag_TC(USART1);
-    }
-    NVIC_ClearPendingIRQ(USART2_IRQn);
-}
-#endif
-#if COM_USE_NUM > 2
 void USART3_IRQHandler(void)
 {
     if(LL_USART_IsActiveFlag_TXE(USART3)){
@@ -527,4 +516,18 @@ void USART3_IRQHandler(void)
     }
     NVIC_ClearPendingIRQ(USART3_IRQn);
 }
+
+#endif
+
+/**
+  * @brief  This function handles usart interrupt request.
+  * @param  None
+  * @retval None
+  */
+  
+#if COM_USE_NUM > 0
+#endif
+#if COM_USE_NUM > 1
+#endif
+#if COM_USE_NUM > 2
 #endif

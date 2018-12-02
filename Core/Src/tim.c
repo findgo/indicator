@@ -52,6 +52,10 @@ void MX_TIM3_Init(void)
   /* Peripheral clock enable */
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM3);
 
+  /* TIM3 interrupt Init */
+  NVIC_SetPriority(TIM3_IRQn, 0);
+  NVIC_EnableIRQ(TIM3_IRQn);
+
   TIM_InitStruct.Prescaler = 2399;
   TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_UP;
   TIM_InitStruct.Autoreload = 50;

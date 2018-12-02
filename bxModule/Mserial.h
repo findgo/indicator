@@ -28,7 +28,7 @@
 
 
 //宏 用于控制非阻塞方式下，设置发送，接收最大缓冲区
-#define COM0_RX_MAX_SIZE   512
+#define COM0_RX_MAX_SIZE   1
 #define COM0_TX_MAX_SIZE   255
 
 #define COM1_RX_MAX_SIZE   128

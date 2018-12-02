@@ -42,11 +42,15 @@ uint32_t mcu_elapsedSystime(void)
   * @note   
   * @retval  None
   */
-void mcu_systime_isr_callback(void)
+//void mcu_systime_isr_callback(void)
+//{
+//    Ms_ClockTimerCounter++;
+//}
+
+void SysTick_Handler(void)
 {
     Ms_ClockTimerCounter++;
 }
-
 
 
 

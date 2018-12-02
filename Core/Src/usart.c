@@ -75,7 +75,11 @@ void MX_USART1_UART_Init(void)
   GPIO_InitStruct.Alternate = LL_GPIO_AF_1;
   LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  USART_InitStruct.BaudRate = 38400;
+  /* USART1 interrupt Init */
+  NVIC_SetPriority(USART1_IRQn, 0);
+  NVIC_EnableIRQ(USART1_IRQn);
+
+  USART_InitStruct.BaudRate = 115200;
   USART_InitStruct.DataWidth = LL_USART_DATAWIDTH_8B;
   USART_InitStruct.StopBits = LL_USART_STOPBITS_1;
   USART_InitStruct.Parity = LL_USART_PARITY_NONE;
@@ -119,6 +123,10 @@ void MX_USART2_UART_Init(void)
   GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
   GPIO_InitStruct.Alternate = LL_GPIO_AF_1;
   LL_GPIO_Init(MAX485_RX_GPIO_Port, &GPIO_InitStruct);
+
+  /* USART2 interrupt Init */
+  NVIC_SetPriority(USART2_IRQn, 0);
+  NVIC_EnableIRQ(USART2_IRQn);
 
   USART_InitStruct.BaudRate = 115200;
   USART_InitStruct.DataWidth = LL_USART_DATAWIDTH_8B;

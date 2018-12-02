@@ -51,7 +51,9 @@ void tasks_init_System(void)
     log_alertln("user code init!");
 //    nvinit();
 
-    hmiInit();
+//    hmiInit();
+    bxmbInit(); // 初始化modbus
+
 //    halledInit();
 //    mledInit();
 //    bsp_InitSHT();
@@ -60,11 +62,12 @@ void tasks_init_System(void)
 
 
     log_alertln("App start!");
+    __enable_irq();
 }
 void tasksPoll(void)
 {
     timerTask();
-    UG_Update();
+//    UG_Update();
     MbsPoll();
 //    SHT_PeriodicHandle();
 }
@@ -90,7 +93,7 @@ int main(void)
 
   /* Configure the system clock */
   SystemClock_Config();
-
+  SystemCoreClockUpdate();
   /* USER CODE BEGIN SysInit */
 
   /* USER CODE END SysInit */
