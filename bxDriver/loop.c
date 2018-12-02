@@ -9,19 +9,19 @@
 //for driver
 #include "systick.h"
 
-//#include "mleds.h"
 //#include "memalloc.h"
 #include "timers.h"
 //#include "event_groups.h"
 
 //#include "nv.h"
+#include "bxLeds.h"
+#include "mcoils.h"
+
 
 #include "hmi.h"
 #include "bxmb.h"
-//#include "SHT.h"
-
-
-
+#include "hal_adc.h"
+#include "hal_key.h"
 
 extern void SystemClock_Config(void);
 
@@ -48,28 +48,29 @@ void tasks_init_System(void)
     Systick_Configuration();
     log_Init();
 
-    log_alertln("user code init!");
-//    nvinit();
+    log_alertln("app init!");
+//    nvinit(); // 待定
 
+    bxLedInit();  // 初始化灯控制器        test  ok
+    mCoilsInit(); // 初始化继电器控制器  tes  t       ok
+    halkeyInit();  // 初始化按键      test ok
 //    hmiInit();
-    bxmbInit(); // 初始化modbus
+//    haladcInit();
+    bxmbInit(); // 初始化modbus ok
 
-//    halledInit();
-//    mledInit();
-//    bsp_InitSHT();
 
-//    mledset(MLED_1, MLED_MODE_FLASH);
-
+// test 
+    bxLedset(BXLED_ALL, BXLED_MODE_ON); 
+    mCoilsSet(MCOILS_ALL, MCOILS_MODE_ON);
 
     log_alertln("App start!");
-    __enable_irq();
 }
 void tasksPoll(void)
 {
     timerTask();
 //    UG_Update();
     MbsPoll();
-//    SHT_PeriodicHandle();
+    keyTask();
 }
 
 

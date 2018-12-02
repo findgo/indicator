@@ -54,6 +54,7 @@
 #define BX_HAL_RELAY_CLOSURE_PORT   RELAY_CLOSURE_GPIO_Port
 #define BX_HAL_RELAY_CLOSURE_PIN    RELAY_CLOSURE_Pin
 
+// define led  used in bxleds.h
 #define BX_HAL_LEDA1_PORT       LED_A1_GPIO_Port
 #define BX_HAL_LEDA1_PIN        LED_A1_Pin
 #define BX_HAL_LEDA2_PORT       LED_A2_GPIO_Port
@@ -76,6 +77,10 @@
 #define BX_HAL_LEDE2_PIN        LED_E2_Pin
 #define BX_HAL_LEDES_PORT       LEDEnergyStorage_GPIO_Port
 #define BX_HAL_LEDES_PIN        LEDEnergyStorage_Pin
+
+//define key used in hal_key.h mkey.h
+#define BX_HAL_KEY_SWITCH_MODE_PORT   HAL_KEY_GPIO_Port  // 切换手动/自动控制模式
+#define BX_HAL_KEY_SWITCH_MODE_PIN   HAL_KEY_Pin
 
 
 #endif

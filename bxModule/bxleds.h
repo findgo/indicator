@@ -88,8 +88,8 @@ typedef enum
 #define BXTURN_LED9_OFF()	    LL_GPIO_ResetOutputPin(BX_HAL_LEDE1_PORT,BX_HAL_LEDE1_PIN)
 #define BXTURN_LED10_ON()	 	LL_GPIO_SetOutputPin(BX_HAL_LEDE2_PORT,BX_HAL_LEDE2_PIN)
 #define BXTURN_LED10_OFF()	    LL_GPIO_ResetOutputPin(BX_HAL_LEDE2_PORT,BX_HAL_LEDE2_PIN)
-#define BXTURN_LED11_ON()		LL_GPIO_SetOutputPin(BX_HAL_LEDES_PORT,BX_HAL_LEDES_PIN)
-#define BXTURN_LED11_OFF()	    LL_GPIO_ResetOutputPin(BX_HAL_LEDES_PORT,BX_HAL_LEDES_PIN)
+#define BXTURN_LED11_ON()		LL_GPIO_SetOutputPin(BX_HAL_LEDES_PORT,BX_HAL_LEDES_PIN)    // 储能指示开
+#define BXTURN_LED11_OFF()	    LL_GPIO_ResetOutputPin(BX_HAL_LEDES_PORT,BX_HAL_LEDES_PIN)  // 储能指示关
 #define BXTURN_LED12_ON()		
 #define BXTURN_LED12_OFF()	
 #define BXTURN_LED13_ON()		
@@ -101,10 +101,10 @@ typedef enum
 #define BXTURN_LED16_ON()	
 #define BXTURN_LED16_OFF()
 
-void bxLEDInit(void);
-void bxLEDset(uint16_t leds, BxLEDMode_t mode);
-void bxLEDsetblink(uint16_t leds, uint8_t numBlinks, uint8_t duty, uint32_t period);
-uint16_t bxLEDGetstatus(uint16_t which);
+void bxLedInit(void);
+void bxLedset(uint16_t leds, BxLEDMode_t mode);
+void bxLedsetblink(uint16_t leds, uint8_t numBlinks, uint8_t duty, uint32_t period);
+uint16_t bxLedGetstatus(uint16_t which);
 
 #endif
 

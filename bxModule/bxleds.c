@@ -31,7 +31,7 @@ static void bxLEDupdateCB(void *arg);
   * @note   
   * @retval  None
   */
-void bxLEDInit(void)
+void bxLedInit(void)
 {
 #if configBLINK_LED > 0
     ledhandle = timerAssign(&ledtimer, bxLEDupdateCB , (void *)&ledhandle);
@@ -48,7 +48,7 @@ void bxLEDInit(void)
  * @return  None
  */
 
-void bxledset(uint16_t leds, BxLEDMode_t mode)
+void bxLedset(uint16_t leds, BxLEDMode_t mode)
 {
 #if configBLINK_LED > 0
 
@@ -58,12 +58,12 @@ void bxledset(uint16_t leds, BxLEDMode_t mode)
     switch (mode) {
     case BXLED_MODE_BLINK:
         /* Default blink, 1 time, D% duty cycle */
-        bxLEDsetblink (leds, BXLED_BLINK_TODO, BXLED_BLINK_DUTY_CYCLE, BXLED_FLASH_CYCLE_TIME);
+        bxLedsetblink (leds, BXLED_BLINK_TODO, BXLED_BLINK_DUTY_CYCLE, BXLED_FLASH_CYCLE_TIME);
         break;
 
     case BXLED_MODE_FLASH:
         /* Default flash, continous , D% duty cycle */
-        bxLEDsetblink (leds, BXLED_BLINK_CONTINOUS_TODO, BXLED_BLINK_DUTY_CYCLE, BXLED_FLASH_CYCLE_TIME);
+        bxLedsetblink (leds, BXLED_BLINK_CONTINOUS_TODO, BXLED_BLINK_DUTY_CYCLE, BXLED_FLASH_CYCLE_TIME);
         break;
 
     case BXLED_MODE_OFF:
@@ -130,7 +130,7 @@ void bxledset(uint16_t leds, BxLEDMode_t mode)
   * @retval  None
   */
 
-void bxLEDsetblink(uint16_t leds, uint8_t numBlinks, uint8_t duty, uint32_t period)
+void bxLedsetblink(uint16_t leds, uint8_t numBlinks, uint8_t duty, uint32_t period)
 {
 #if configBLINK_LED > 0
 
@@ -185,12 +185,12 @@ void bxLEDsetblink(uint16_t leds, uint8_t numBlinks, uint8_t duty, uint32_t peri
 #endif
 }
 
-uint16_t BXLEDGetstatus( uint16_t which )
+uint16_t bxLedGetstatus( uint16_t which )
 {
     return ( CurledsOnOffstatus & which );
 }
 #if configBLINK_LED > 0
-static void bxLEDupdateCB(void *arg)
+static void bxLedupdateCB(void *arg)
 {
     uint8_t pct;
     uint16_t led;
