@@ -5,15 +5,22 @@
 #include "hal_adc.h"
 
 
+#define HAL_ADC_SCAN_TIME   500
+
 typedef struct adc_config_s {
 	uint32_t adcChannel;         // ADC1_INxx channel number
 	uint8_t dmaIndex;           // index into DMA buffer in case of sparse channels
 } adc_config_t;
 
-static uint32_t Hal_ADC_GetCalibrationFactor(ADC_TypeDef* ADCx);
+static uint32_t haladc_GetCalibrationFactor(ADC_TypeDef* ADCx);
+static void haladcCB(void *arg);;
 
 static adc_config_t adcConfig[ADC_CHANNEL_MAX];
 static volatile uint16_t adcValues[16][ADC_CHANNEL_MAX];
+
+static TimerHandle_t adctimeHandle;
+static TimerStatic_t adctimer;
+
 
 void haladcInit(void)
 {
@@ -81,7 +88,7 @@ void haladcInit(void)
 #if defined(ADC_INTER_TEMPSENSOR)
 	adcConfig[ADC_INTER_TEMPSENSOR].adcChannel = LL_ADC_CHANNEL_TEMPSENSOR;
 	adcConfig[ADC_INTER_TEMPSENSOR].dmaIndex = configuredAdcChannels++;
-    LL_ADC_SetCommonPathInternalCh(__LL_ADC_COMMON_INSTANCE(ADC_ACTIVE),, LL_ADC_PATH_INTERNAL_TEMPSENSOR);
+    LL_ADC_SetCommonPathInternalCh(__LL_ADC_COMMON_INSTANCE(ADC_ACTIVE), LL_ADC_PATH_INTERNAL_TEMPSENSOR);
 #endif
 	
     /**Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion) 
@@ -90,7 +97,7 @@ void haladcInit(void)
     ADC_InitStruct.Resolution = LL_ADC_RESOLUTION_12B;
     ADC_InitStruct.DataAlignment = LL_ADC_DATA_ALIGN_RIGHT;
     ADC_InitStruct.LowPowerMode = LL_ADC_LP_MODE_NONE;
-    LL_ADC_Init(ADC1, &ADC_InitStruct);
+    LL_ADC_Init(ADC_ACTIVE, &ADC_InitStruct);
     
 	/* Configure the ADC1 in continuous mode withe a resolution equal to 12 bits  */
     ADC_REG_InitStruct.TriggerSource = LL_ADC_REG_TRIG_SOFTWARE;
@@ -98,12 +105,16 @@ void haladcInit(void)
     ADC_REG_InitStruct.ContinuousMode = LL_ADC_REG_CONV_CONTINUOUS;
     ADC_REG_InitStruct.DMATransfer = LL_ADC_REG_DMA_TRANSFER_UNLIMITED;
     ADC_REG_InitStruct.Overrun = LL_ADC_REG_OVR_DATA_PRESERVED;
-    LL_ADC_REG_Init(ADC1, &ADC_REG_InitStruct);
-    LL_ADC_REG_SetSequencerScanDirection(ADC1, LL_ADC_REG_SEQ_SCAN_DIR_FORWARD);
-
+    LL_ADC_REG_Init(ADC_ACTIVE, &ADC_REG_InitStruct);
+    LL_ADC_REG_SetSequencerScanDirection(ADC_ACTIVE, LL_ADC_REG_SEQ_SCAN_DIR_FORWARD);
+    LL_ADC_DisableIT_EOC(ADC_ACTIVE);
+    LL_ADC_DisableIT_EOS(ADC_ACTIVE);
+    
+    /**Configure Regular Channel 
+    */
 	for(i = 0; i < ADC_CHANNEL_MAX; i++){
-        LL_ADC_REG_SetSequencerChannels(ADC_ACTIVE, adcConfig[i].adcChannel);
-    }	
+        LL_ADC_REG_SetSequencerChAdd(ADC_ACTIVE, adcConfig[i].adcChannel);
+    }
     
     LL_ADC_SetSamplingTimeCommonChannels(ADC_ACTIVE, ADC_ACTIVE_SAMPLETIME);
 
@@ -127,17 +138,8 @@ void haladcInit(void)
     
     LL_DMA_SetDataLength(ADC_DMA_ACTIVE, ADC_DMA_CHANNEL, sizeof(adcValues)/sizeof(uint16_t));
 
-	/* DMA1 Channel1 enable */
-    LL_DMA_EnableChannel(ADC_DMA_ACTIVE, ADC_DMA_CHANNEL);
-
 	/* ADC Calibration */
-	Hal_ADC_GetCalibrationFactor(ADC_ACTIVE);
-
-	/* ADC DMA request in circular mode */
-    LL_DMA_SetMode(ADC_DMA_ACTIVE, LL_DMA_CHANNEL_1, LL_DMA_MODE_CIRCULAR); // 循环模式?
-
-	/* Enable ADC_DMA */
-    LL_ADC_REG_SetDMATransfer(ADC_ACTIVE, LL_ADC_REG_DMA_TRANSFER_UNLIMITED);
+	haladc_GetCalibrationFactor(ADC_ACTIVE);
 
 	/* Enable the ADC peripheral */
     LL_ADC_Enable(ADC_ACTIVE);
@@ -145,12 +147,26 @@ void haladcInit(void)
 	/* Wait the ADRDY flag */
 	while(!LL_ADC_IsActiveFlag_ADRDY(ADC_ACTIVE)){}; 
 
+	/* ADC DMA request in circular mode */
+    LL_DMA_SetMode(ADC_DMA_ACTIVE, ADC_DMA_CHANNEL, LL_DMA_MODE_CIRCULAR); // 循环模式?
+
+	/* Enable ADC_DMA */
+    LL_ADC_REG_SetDMATransfer(ADC_ACTIVE, LL_ADC_REG_DMA_TRANSFER_UNLIMITED);
+    
+	/* DMA1 Channel1 enable */
+//    LL_DMA_EnableChannel(ADC_DMA_ACTIVE, ADC_DMA_CHANNEL);
+
 	/* ADC1 regular Software Start Conv */
-    LL_ADC_REG_StartConversion(ADC_ACTIVE);
+//    LL_ADC_REG_StartConversion(ADC_ACTIVE);
+// ADC 错位问题, 要先使能DMA传输,再启动ADC转换,才不会出现错位情况
+    adcStart();
+
+    adctimeHandle = timerAssign(&adctimer, haladcCB , (void *)&adctimeHandle);
+    timerStart(adctimeHandle, HAL_ADC_SCAN_TIME);
 }
 
 
-static uint32_t Hal_ADC_GetCalibrationFactor(ADC_TypeDef* ADCx)
+static uint32_t haladc_GetCalibrationFactor(ADC_TypeDef* ADCx)
 {
   uint32_t calibrationcounter = 0;
   
@@ -174,6 +190,23 @@ static uint32_t Hal_ADC_GetCalibrationFactor(ADC_TypeDef* ADCx)
    return LL_ADC_REG_ReadConversionData32(ADCx);
 }
 
+
+
+void adcStart(void)
+{
+	/* DMA1 Channel1 disable */
+    LL_ADC_REG_StopConversion(ADC_ACTIVE);
+    LL_DMA_DisableChannel(ADC_DMA_ACTIVE, ADC_DMA_CHANNEL);
+    
+    LL_DMA_SetMemoryAddress(ADC_DMA_ACTIVE, ADC_DMA_CHANNEL, (uint32_t)&adcValues[0][0]);
+    LL_DMA_SetDataLength(ADC_DMA_ACTIVE, ADC_DMA_CHANNEL, sizeof(adcValues)/sizeof(uint16_t));
+    
+	/* DMA1 Channel1 enable */
+    LL_DMA_EnableChannel(ADC_DMA_ACTIVE, ADC_DMA_CHANNEL);
+    
+	/* ADC1 regular Software Start Conv */
+    LL_ADC_REG_StartConversion(ADC_ACTIVE);
+}
 
 /**
   * @brief	¶ÁADCµÄÖµ£¬Î´´¦Àí
@@ -223,5 +256,15 @@ uint32_t adcInternalVref(void)
 */
 
 
+
+static void haladcCB(void *arg)
+{
+    log_debugln("tmp1: %d", adcGetRawValue(ADC_NTC1));
+    log_debugln("humi1: %d", adcGetRawValue(ADC_NTC2));
+    log_debugln("tmp2: %d", adcGetRawValue(ADC_NTC3));
+    log_debugln("humi2: %d", adcGetRawValue(ADC_NTC4));
+    
+    timerRestart(*((TimerHandle_t *)arg), HAL_ADC_SCAN_TIME);
+}
 
 

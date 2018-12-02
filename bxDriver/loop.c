@@ -54,6 +54,7 @@ void tasks_init_System(void)
     bxLedInit();  // 初始化灯控制器        test  ok
     mCoilsInit(); // 初始化继电器控制器  tes  t       ok
     halkeyInit();  // 初始化按键      test ok
+    haladcInit();
 //    hmiInit();
 //    haladcInit();
     bxmbInit(); // 初始化modbus ok
