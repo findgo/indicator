@@ -24,7 +24,6 @@
 #define configSUPPORT_MODBUS           ( 1 )
 
 
-
 // dat0 - dat6 used in misc
 #define BX_HAL_DATA0_PORT   DAT0_GPIO_Port
 #define BX_HAL_DATA0_PIN    DAT0_Pin
@@ -80,7 +79,30 @@
 
 //define key used in hal_key.h mkey.h
 #define BX_HAL_KEY_SWITCH_MODE_PORT   HAL_KEY_GPIO_Port  // 切换手动/自动控制模式
-#define BX_HAL_KEY_SWITCH_MODE_PIN   HAL_KEY_Pin
+#define BX_HAL_KEY_SWITCH_MODE_PIN    HAL_KEY_Pin
 
+// define input
+#define BX_HAL_ALARM_TEST1_PORT         ALARM_TEST1_GPIO_Port
+#define BX_HAL_ALARM_TEST1_PIN          ALARM_TEST1_Pin
+#define BX_HAL_ALARM_TEST2_PORT         ALARM_TEST2_GPIO_Port
+#define BX_HAL_ALARM_TEST2_PIN          ALARM_TEST2_Pin
+#define BX_HAL_IN_ENERGYSTORAGE_PORT    IN_EnergyStorage_GPIO_Port
+#define BX_HAL_IN_ENERGYSTORAGE_PIN     IN_EnergyStorage_Pin
+#define BX_HAL_IN_SWITCHON_PORT         IN_SwitchOn_GPIO_Port
+#define BX_HAL_IN_SWITCHON_PIN          IN_SwitchOn_Pin
+#define BX_HAL_IN_SWITCHOFF_PORT        IN_SwitchOff_GPIO_Port
+#define BX_HAL_IN_SWITCHOFF_PIN         IN_SwitchOff_Pin
+#define BX_HAL_IN_WORKSTATUS_PORT       IN_WorkStatus_GPIO_Port
+#define BX_HAL_IN_WORKSTATUS_PIN        IN_WorkStatus_Pin
+#define BX_HAL_IN_TESTSTATUS_PORT       IN_TestStatus_GPIO_Port
+#define BX_HAL_IN_TESTSTATUS_PIN        IN_TestStatus_Pin
+#define BX_HAL_IN_GROUND_PORT           IN_Ground_GPIO_Port
+#define BX_HAL_IN_GROUND_PIN            IN_Ground_Pin
+#define BX_HAL_LIVEJUDGMENT_PORT        LIVEJUDGMENT_GPIO_Port
+#define BX_HAL_LIVEJUDGMENT_PIN         LIVEJUDGMENT_Pin
+#define BX_HAL_IN_SPARE1_PORT           
+#define BX_HAL_IN_SPARE1_PIN            
+#define BX_HAL_IN_SPARE2_PORT           
+#define BX_HAL_IN_SPARE2_PIN            
 
 #endif

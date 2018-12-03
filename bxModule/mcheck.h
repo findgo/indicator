@@ -15,9 +15,10 @@
 #define __MCHECK_H_
 
 #include "app_cfg.h"
+#include "bxmisc.h"
 
-#define mCKSNum    8
-#define MCKS_FILTERTIME    50
+#define mCKSNum             9
+#define MCKS_FILTERTIME     5
 
 /* leds - The leds number is the same as the bit position */
 #define MCKS_1     	((uint16_t)1 << 0)
@@ -38,7 +39,7 @@
 #define MCKS_16    	((uint16_t)1 << 15)
 #define MCKS_ALL   	(uint16_t)((1 << mCKSNum) - 1)
 
-/* cks 指明哪个IO 发生变化,用于同一个回调识别不同IO变化
+/* cks 指明哪个IO 发生变化,可用于同一个回调识别不同IO变化
  * 电平变化时,触发回调,  TRUE指明上降沿触发,当前高电平. FALSE: 下升沿触发,当前低电平 */
 typedef void (*cksCallBackFunc_t)(uint16_t cks, uint8_t isHigh); 
 
@@ -46,19 +47,18 @@ void mcksAssign(uint16_t ckss, cksCallBackFunc_t pcallback);
 void mcks_Task(void);
 uint16_t mcksGetLowStatus(void);
 
-
 /* IO电平,高平电返回1,低电平返回0 */
-#define MCKS1_LEVEL()    1
-#define MCKS2_LEVEL()    1
-#define MCKS3_LEVEL()    1
-#define MCKS4_LEVEL()    1
-#define MCKS5_LEVEL()    1
-#define MCKS6_LEVEL()    1
-#define MCKS7_LEVEL()    1
-#define MCKS8_LEVEL()    1
-#define MCKS9_LEVEL()    
-#define MCKS10_LEVEL()    
-#define MCKS11_LEVEL()    
+#define MCKS1_LEVEL()    BxGPIO_ReadInputDataBit(BX_HAL_ALARM_TEST1_PORT, BX_HAL_ALARM_TEST1_PIN)
+#define MCKS2_LEVEL()    BxGPIO_ReadInputDataBit(BX_HAL_ALARM_TEST2_PORT, BX_HAL_ALARM_TEST2_PIN)
+#define MCKS3_LEVEL()    BxGPIO_ReadInputDataBit(BX_HAL_IN_ENERGYSTORAGE_PORT, BX_HAL_IN_ENERGYSTORAGE_PIN)
+#define MCKS4_LEVEL()    BxGPIO_ReadInputDataBit(BX_HAL_IN_SWITCHON_PORT, BX_HAL_IN_SWITCHON_PIN)
+#define MCKS5_LEVEL()    BxGPIO_ReadInputDataBit(BX_HAL_IN_SWITCHOFF_PORT, BX_HAL_IN_SWITCHOFF_PIN)
+#define MCKS6_LEVEL()    BxGPIO_ReadInputDataBit(BX_HAL_IN_WORKSTATUS_PORT, BX_HAL_IN_WORKSTATUS_PIN)
+#define MCKS7_LEVEL()    BxGPIO_ReadInputDataBit(BX_HAL_IN_TESTSTATUS_PORT, BX_HAL_IN_TESTSTATUS_PIN)
+#define MCKS8_LEVEL()    BxGPIO_ReadInputDataBit(BX_HAL_IN_GROUND_PORT, BX_HAL_IN_GROUND_PIN)
+#define MCKS9_LEVEL()    BxGPIO_ReadInputDataBit(BX_HAL_LIVEJUDGMENT_PORT, BX_HAL_LIVEJUDGMENT_PIN)
+#define MCKS10_LEVEL()   //BxGPIO_ReadInputDataBit(BX_HAL_IN_SPARE1_PORT, BX_HAL_IN_SPARE1_PIN)
+#define MCKS11_LEVEL()   //BxGPIO_ReadInputDataBit(BX_HAL_IN_SPARE2_PORT, BX_HAL_IN_SPARE2_PIN)
 #define MCKS12_LEVEL()    
 #define MCKS13_LEVEL()    
 #define MCKS14_LEVEL()    

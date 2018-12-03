@@ -562,11 +562,6 @@
               <FileType>1</FileType>
               <FilePath>..\bxDriver\hal_adc.c</FilePath>
             </File>
-            <File>
-              <FileName>hal_key.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\bxDriver\hal_key.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>

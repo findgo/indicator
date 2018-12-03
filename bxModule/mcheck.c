@@ -25,26 +25,28 @@ static mcksCtl_t cksControl[mCKSNum];
 void mcksAssign(uint16_t ckss, cksCallBackFunc_t pcallback)
 {
     uint16_t cks;
-    uint8_t idx;
+    mcksCtl_t *sts;
     
     if(pcallback == NULL)
         return;
 
     if(!mcksInited){
         preCksSavestatus = mcksGetLowStatus();
+        mcksInited = TRUE;
     }
     
     cks = MCKS_1;
     ckss &= MCKS_ALL;
-    idx = 0;
+    sts = &cksControl[0];
 
     while (ckss)
     {
         if (ckss & cks){
-            cksControl[idx].pcallfuc = pcallback;
+            sts->pcallfuc = pcallback;
             ckss ^= cks;
         }
-        cks <<= 1;
+        cks <<= 1;  //下一个
+        sts++;      //下一个
     }
 }
 
@@ -79,8 +81,7 @@ void mcks_Task(void)
                 }
             }           
     		else{ //CKS_STATE_CHANGE_FILTER
-    			sts->filtercount++;
-    			if(sts->filtercount >= MCKS_FILTERTIME){
+    			if(++sts->filtercount >= MCKS_FILTERTIME){
                     if ((status & cks) && sts->pcallfuc) {
                         tmpbit = newStatus & cks;
                         sts->pcallfuc(cks, (tmpbit > 0) ? TRUE : FALSE );

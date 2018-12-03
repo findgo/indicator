@@ -4,23 +4,15 @@
 
 #include "hal_adc.h"
 
-
-#define HAL_ADC_SCAN_TIME   500
-
 typedef struct adc_config_s {
 	uint32_t adcChannel;         // ADC1_INxx channel number
 	uint8_t dmaIndex;           // index into DMA buffer in case of sparse channels
 } adc_config_t;
 
 static uint32_t haladc_GetCalibrationFactor(ADC_TypeDef* ADCx);
-static void haladcCB(void *arg);;
 
 static adc_config_t adcConfig[ADC_CHANNEL_MAX];
 static volatile uint16_t adcValues[16][ADC_CHANNEL_MAX];
-
-static TimerHandle_t adctimeHandle;
-static TimerStatic_t adctimer;
-
 
 void haladcInit(void)
 {
@@ -160,9 +152,6 @@ void haladcInit(void)
 //    LL_ADC_REG_StartConversion(ADC_ACTIVE);
 // ADC 错位问题, 要先使能DMA传输,再启动ADC转换,才不会出现错位情况
     adcStart();
-
-    adctimeHandle = timerAssign(&adctimer, haladcCB , (void *)&adctimeHandle);
-    timerStart(adctimeHandle, HAL_ADC_SCAN_TIME);
 }
 
 
@@ -256,15 +245,5 @@ uint32_t adcInternalVref(void)
 */
 
 
-
-static void haladcCB(void *arg)
-{
-    log_debugln("tmp1: %d", adcGetRawValue(ADC_NTC1));
-    log_debugln("humi1: %d", adcGetRawValue(ADC_NTC2));
-    log_debugln("tmp2: %d", adcGetRawValue(ADC_NTC3));
-    log_debugln("humi2: %d", adcGetRawValue(ADC_NTC4));
-    
-    timerRestart(*((TimerHandle_t *)arg), HAL_ADC_SCAN_TIME);
-}
 
 

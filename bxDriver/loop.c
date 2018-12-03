@@ -21,8 +21,7 @@
 #include "hmi.h"
 #include "bxmb.h"
 #include "hal_adc.h"
-#include "hal_key.h"
-
+#include "bxmisc.h"
 extern void SystemClock_Config(void);
 
 
@@ -53,7 +52,7 @@ void tasks_init_System(void)
 
     bxLedInit();  // 初始化灯控制器        test  ok
     mCoilsInit(); // 初始化继电器控制器  tes  t       ok
-    halkeyInit();  // 初始化按键      test ok
+    bxMiscInit();  // 初始化按键      test ok
     haladcInit();
 //    hmiInit();
 //    haladcInit();
@@ -71,7 +70,7 @@ void tasksPoll(void)
     timerTask();
 //    UG_Update();
     MbsPoll();
-    keyTask();
+    bxMiscTask();
 }
 
 
