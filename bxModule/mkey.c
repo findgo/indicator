@@ -1,7 +1,7 @@
 #include "mkey.h"
 
 typedef struct {
-    mKeyDownFunc_t IsmKeyDownFunc_t;  // 按键按下的判断函数,1表示按下 
+    mKeyDownFunc_t IsmKeyDownFunc;  // 按键按下的判断函数,1表示按下 
     void *next;
     
     uint8_t filterCount;             // 滤波器计时器
@@ -70,13 +70,13 @@ static uint8_t key_pop(uint8_t *ptObj)
 #define KEY_DECETOR_REPEAT_PRESS        3 
 #define KEY_DECETOR_IS_UP               4
 
-void mkeyAssign(mkeycfgStatic_t *cfg, mKeyDownFunc_t IsmKeyDownFunc_t,
+void mkeyAssign(mkeycfgStatic_t *cfg, mKeyDownFunc_t IsmKeyDownFunc,
                     uint8_t KeyCodeDown,uint8_t KeyCodeLong,uint8_t KeyCodeUp,
                     uint8_t filterTime,uint16_t longTime,uint8_t repeatSpeed)
 {
     keycfg_t *mcfg = ( keycfg_t * )cfg;
 
-    mcfg->IsmKeyDownFunc_t = IsmKeyDownFunc_t;
+    mcfg->IsmKeyDownFunc = IsmKeyDownFunc;
     mcfg->filterTime = filterTime > 0 ? filterTime : KEY_DEFAULT_FILTER_TIME;
     mcfg->longTime = longTime;
     mcfg->repeatSpeed = repeatSpeed;
@@ -108,7 +108,7 @@ void mkeydecetor_task(void)
     {
         switch(curcfg->state){
         case KEY_DECETOR_CHECK_START:
-            if(curcfg->IsmKeyDownFunc_t()){
+            if(curcfg->IsmKeyDownFunc()){
                 curcfg->state = KEY_DECETOR_CHECK_DOWN;
             }
             break;
@@ -116,7 +116,7 @@ void mkeydecetor_task(void)
         case KEY_DECETOR_CHECK_DOWN:    
             if(++curcfg->filterCount >= curcfg->filterTime){ // 滤波
                 curcfg->filterCount = 0;
-                if(curcfg->IsmKeyDownFunc_t()){
+                if(curcfg->IsmKeyDownFunc()){
                     if((curcfg ->longTime == 0) && (curcfg->repeatSpeed == 0)){ // 不支持长击和连击，直接到抬键状态
                         key_put(curcfg->KeyCodeDown);
                         curcfg->state = KEY_DECETOR_IS_UP;
@@ -133,7 +133,7 @@ void mkeydecetor_task(void)
             
         case KEY_DECETOR_LONG_PRESS:
             if(curcfg->longTime > 0){ // 支持长按
-                if(curcfg->IsmKeyDownFunc_t()){
+                if(curcfg->IsmKeyDownFunc()){
                     if(++curcfg->longrepCount >= curcfg->longTime){// 长按
                         key_put(curcfg->KeyCodeLong);
                         if(curcfg->repeatSpeed == 0)// 不支持连击，直接到抬键
@@ -151,7 +151,7 @@ void mkeydecetor_task(void)
             }
             else{  // 不支持长按
                 if(curcfg->repeatSpeed > 0){ //支持连击
-                   if(curcfg->IsmKeyDownFunc_t()){
+                   if(curcfg->IsmKeyDownFunc()){
                         if(++curcfg->longrepCount >= KEY_DEFAULT_LONGTOREPEAT_TIME){
                             curcfg->state = KEY_DECETOR_REPEAT_PRESS;                        
                             curcfg->longrepCount = 0;
@@ -172,7 +172,7 @@ void mkeydecetor_task(void)
             
         case KEY_DECETOR_REPEAT_PRESS:
             if(curcfg->repeatSpeed > 0){ // 支持连击
-                if(curcfg->IsmKeyDownFunc_t()){
+                if(curcfg->IsmKeyDownFunc()){
                     if(++curcfg->longrepCount >= curcfg->repeatSpeed){
                         key_put(curcfg->KeyCodeDown);
                         curcfg->longrepCount = 0;
@@ -191,7 +191,7 @@ void mkeydecetor_task(void)
             
         case KEY_DECETOR_IS_UP:         //抬键处理
             if(++curcfg->filterCount >= curcfg->filterTime){
-                if(!curcfg->IsmKeyDownFunc_t()){
+                if(!curcfg->IsmKeyDownFunc()){
                     if(curcfg->KeyCodeUp != MKEY_NULL)
                         key_put(curcfg->KeyCodeUp);
                     curcfg->state = KEY_DECETOR_CHECK_START;

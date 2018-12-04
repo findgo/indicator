@@ -82,23 +82,23 @@
 #define BX_HAL_KEY_SWITCH_MODE_PIN    HAL_KEY_Pin
 
 // define input
-#define BX_HAL_ALARM_TEST1_PORT         ALARM_TEST1_GPIO_Port
+#define BX_HAL_ALARM_TEST1_PORT         ALARM_TEST1_GPIO_Port           // 加热检测1
 #define BX_HAL_ALARM_TEST1_PIN          ALARM_TEST1_Pin
-#define BX_HAL_ALARM_TEST2_PORT         ALARM_TEST2_GPIO_Port
+#define BX_HAL_ALARM_TEST2_PORT         ALARM_TEST2_GPIO_Port           // 加热检测2
 #define BX_HAL_ALARM_TEST2_PIN          ALARM_TEST2_Pin
-#define BX_HAL_IN_ENERGYSTORAGE_PORT    IN_EnergyStorage_GPIO_Port
+#define BX_HAL_IN_ENERGYSTORAGE_PORT    IN_EnergyStorage_GPIO_Port      // 储能
 #define BX_HAL_IN_ENERGYSTORAGE_PIN     IN_EnergyStorage_Pin
-#define BX_HAL_IN_SWITCHON_PORT         IN_SwitchOn_GPIO_Port
+#define BX_HAL_IN_SWITCHON_PORT         IN_SwitchOn_GPIO_Port           // 断路器合
 #define BX_HAL_IN_SWITCHON_PIN          IN_SwitchOn_Pin
-#define BX_HAL_IN_SWITCHOFF_PORT        IN_SwitchOff_GPIO_Port
+#define BX_HAL_IN_SWITCHOFF_PORT        IN_SwitchOff_GPIO_Port          // 断路器分
 #define BX_HAL_IN_SWITCHOFF_PIN         IN_SwitchOff_Pin
-#define BX_HAL_IN_WORKSTATUS_PORT       IN_WorkStatus_GPIO_Port
+#define BX_HAL_IN_WORKSTATUS_PORT       IN_WorkStatus_GPIO_Port         // 工作状态
 #define BX_HAL_IN_WORKSTATUS_PIN        IN_WorkStatus_Pin
-#define BX_HAL_IN_TESTSTATUS_PORT       IN_TestStatus_GPIO_Port
+#define BX_HAL_IN_TESTSTATUS_PORT       IN_TestStatus_GPIO_Port         // 试验位置
 #define BX_HAL_IN_TESTSTATUS_PIN        IN_TestStatus_Pin
-#define BX_HAL_IN_GROUND_PORT           IN_Ground_GPIO_Port
+#define BX_HAL_IN_GROUND_PORT           IN_Ground_GPIO_Port             // 接地刀闸
 #define BX_HAL_IN_GROUND_PIN            IN_Ground_Pin
-#define BX_HAL_LIVEJUDGMENT_PORT        LIVEJUDGMENT_GPIO_Port
+#define BX_HAL_LIVEJUDGMENT_PORT        LIVEJUDGMENT_GPIO_Port          // 断线检测
 #define BX_HAL_LIVEJUDGMENT_PIN         LIVEJUDGMENT_Pin
 #define BX_HAL_IN_SPARE1_PORT           
 #define BX_HAL_IN_SPARE1_PIN            

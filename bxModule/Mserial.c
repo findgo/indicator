@@ -518,16 +518,3 @@ void USART3_IRQHandler(void)
 }
 
 #endif
-
-/**
-  * @brief  This function handles usart interrupt request.
-  * @param  None
-  * @retval None
-  */
-  
-#if COM_USE_NUM > 0
-#endif
-#if COM_USE_NUM > 1
-#endif
-#if COM_USE_NUM > 2
-#endif

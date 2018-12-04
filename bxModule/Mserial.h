@@ -40,15 +40,15 @@
 #define COM3_RX_MAX_SIZE   255
 #define COM3_TX_MAX_SIZE   255
 
-#define COM0PutByte(dat)    (LL_USART_TransmitData8(USART_USING1, dat))
-#define COM0GetByte()       ((uint8_t)LL_USART_ReceiveData8(USART_USING1))
-#define COM0TxIEEnable()    do{ LL_USART_EnableIT_TXE(USART_USING1);}while(0)
-#define COM0TxIEDisable()   do{ LL_USART_DisableIT_TXE(USART_USING1); }while(0)
+#define COM0PutByte(dat)    LL_USART_TransmitData8(USART_USING1, dat)
+#define COM0GetByte()       LL_USART_ReceiveData8(USART_USING1)
+#define COM0TxIEEnable()    LL_USART_EnableIT_TXE(USART_USING1)
+#define COM0TxIEDisable()   LL_USART_DisableIT_TXE(USART_USING1)
 
-#define COM1PutByte(dat)    (LL_USART_TransmitData8(USART_USING2, dat))
-#define COM1GetByte()     	((uint8_t)LL_USART_ReceiveData8(USART_USING2))
-#define COM1TxIEEnable()    do{ LL_USART_EnableIT_TXE(USART_USING2); }while(0)
-#define COM1TxIEDisable()   do{ LL_USART_DisableIT_TXE(USART_USING2); }while(0)
+#define COM1PutByte(dat)    LL_USART_TransmitData8(USART_USING2, dat)
+#define COM1GetByte()     	LL_USART_ReceiveData8(USART_USING2)
+#define COM1TxIEEnable()    LL_USART_EnableIT_TXE(USART_USING2)
+#define COM1TxIEDisable()   LL_USART_DisableIT_TXE(USART_USING2)
 
 #define COM2PutByte(dat)    //(USART_SendData(USART_USING3, dat)) 	
 #define COM2GetByte()       //((uint8_t)USART_ReceiveData(USART_USING3))	

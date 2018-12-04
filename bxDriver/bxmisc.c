@@ -33,24 +33,15 @@ void bxMiscInit(void)
     timerStart(adctimeHandle, HAL_ADC_SCAN_TIME);
 }
 
-uint8_t BxGPIO_ReadInputDataBit(GPIO_TypeDef* GPIOx, uint32_t GPIO_Pin)
-{
-    if ((LL_GPIO_ReadInputPort(GPIOx) & GPIO_Pin) != (uint32_t)0){
-        return 0x01;
-    }
-    
-    return 0x00;
-}
-
 uint8_t bxMiscGetSlaveID(void)
 {
-    uint8_t value = BxGPIO_ReadInputDataBit(DAT6_GPIO_Port, BX_HAL_DATA6_PIN) << 6;
-    value |= BxGPIO_ReadInputDataBit(DAT5_GPIO_Port, BX_HAL_DATA5_PIN) << 5;
-    value |= BxGPIO_ReadInputDataBit(DAT4_GPIO_Port, BX_HAL_DATA4_PIN) << 4;
-    value |= BxGPIO_ReadInputDataBit(DAT3_GPIO_Port, BX_HAL_DATA3_PIN) << 3;
-    value |= BxGPIO_ReadInputDataBit(DAT2_GPIO_Port, BX_HAL_DATA2_PIN) << 2;
-    value |= BxGPIO_ReadInputDataBit(DAT1_GPIO_Port, BX_HAL_DATA1_PIN) << 1;
-    value |= BxGPIO_ReadInputDataBit(DAT0_GPIO_Port, BX_HAL_DATA0_PIN) << 0;
+    uint8_t value = LL_GPIO_IsInputPinSet(DAT6_GPIO_Port, BX_HAL_DATA6_PIN) << 6;
+    value |= LL_GPIO_IsInputPinSet(DAT5_GPIO_Port, BX_HAL_DATA5_PIN) << 5;
+    value |= LL_GPIO_IsInputPinSet(DAT4_GPIO_Port, BX_HAL_DATA4_PIN) << 4;
+    value |= LL_GPIO_IsInputPinSet(DAT3_GPIO_Port, BX_HAL_DATA3_PIN) << 3;
+    value |= LL_GPIO_IsInputPinSet(DAT2_GPIO_Port, BX_HAL_DATA2_PIN) << 2;
+    value |= LL_GPIO_IsInputPinSet(DAT1_GPIO_Port, BX_HAL_DATA1_PIN) << 1;
+    value |= LL_GPIO_IsInputPinSet(DAT0_GPIO_Port, BX_HAL_DATA0_PIN) << 0;
 
     return value;
 }
@@ -91,8 +82,8 @@ static void bxMiscCheckInit(void)
     uint16_t cks = MCKS_1;
     uint16_t ckss = MCKS_ALL;
     uint16_t value = mcksGetLowStatus();
-    
-    mcksAssign(MCKS_ALL, bxMiscCheckHandle);
+
+    mcksAssign(MCKS_ALL, bxMiscCheckHandle); // 分配同一个回调
     
     while(ckss)
     {
@@ -105,9 +96,87 @@ static void bxMiscCheckInit(void)
     }
 }
 
+// 有io电平变化,触发对应IO的回调
 static void bxMiscCheckHandle(uint16_t cks, uint8_t isHigh)
 {
      misc_logln("cks: 0x%04x, level: %d", cks, isHigh);
     //TODO: your job
-     
+    switch (cks){
+    case MCKS_ALARM_TEST1:
+        break;
+    case MCKS_ALARM_TEST2:
+        break;
+    case MCKS_IN_WORKSTATUS:
+        if(isHigh){ // 工作位置触点断开
+            // 指示触点断开,灯灭
+        }
+        else{ 
+            // 指示触点闭合,灯亮
+        }
+        // 修改工作位置触点 标志位
+        break;
+    case MCKS_IN_TESTSTATUS:
+        if(isHigh){ // 试验位置触点断开
+            // 指示触点断开, 灯灭
+        }
+        else{ 
+            // 指示触点闭合,灯亮
+        }
+        // 修改试验位置触点 标志位
+        break;
+    case MCKS_IN_GROUND:
+        if(isHigh){ // 接地合闸断开
+            // 指示触点闭合灯灭
+            // 指示触点断开灯亮
+        }
+        else{ 
+            // 指示触点闭合灯亮
+            // 指示触点断开灯灭
+        }
+        // 修改接地合闸标志位
+        break;
+    case MCKS_IN_ENERGYSTORAGE: 
+        if(isHigh){ // 储能分开
+            // 指示储能灯灭
+        }
+        else{ 
+            // 指示储能灯亮
+        }
+        // 修改储能标志位
+        break;
+    case MCKS_IN_SWITCHON:
+        if(isHigh){ // 断路器合闸位置触点 断开
+            // 指示触点断开, 灯灭
+        }
+        else{ 
+            // 指示触点闭合, 灯亮
+        }
+        // 修改断路器合位置触点 标志位
+        break;
+    case MCKS_IN_SWITCHOFF:
+        if(isHigh){ // 断路器分闸位置触点 断开
+            // 指示触点断开, 灯灭
+        }
+        else{ 
+            // 指示触点闭合, 灯亮
+        }
+        // 修改断路器分位置触点 标志位
+        break;
+    case MCKS_LIVEJUDGMENT:
+        if(isHigh){ // 正常
+            // 指示正常, 灯灭
+        }
+        else{ 
+            // 指示断线报警, 灯亮
+        }
+        // 修改断线报触 标志位
+        break;
+    default:
+        break;
+    }
+
+    // process all flag 
+    
+
+    
 }

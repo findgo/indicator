@@ -47,6 +47,18 @@ void mcksAssign(uint16_t ckss, cksCallBackFunc_t pcallback);
 void mcks_Task(void);
 uint16_t mcksGetLowStatus(void);
 
+// user defined 
+#define MCKS_ALARM_TEST1        MCKS_1
+#define MCKS_ALARM_TEST2        MCKS_2
+#define MCKS_IN_ENERGYSTORAGE   MCKS_3
+#define MCKS_IN_SWITCHON        MCKS_4
+#define MCKS_IN_SWITCHOFF       MCKS_5
+#define MCKS_IN_WORKSTATUS      MCKS_6
+#define MCKS_IN_TESTSTATUS      MCKS_7
+#define MCKS_IN_GROUND          MCKS_8
+#define MCKS_LIVEJUDGMENT       MCKS_9
+
+
 /* IO电平,高平电返回1,低电平返回0 */
 #define MCKS1_LEVEL()    BxGPIO_ReadInputDataBit(BX_HAL_ALARM_TEST1_PORT, BX_HAL_ALARM_TEST1_PIN)
 #define MCKS2_LEVEL()    BxGPIO_ReadInputDataBit(BX_HAL_ALARM_TEST2_PORT, BX_HAL_ALARM_TEST2_PIN)
