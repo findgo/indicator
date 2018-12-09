@@ -58,7 +58,6 @@ extern "C" {
 #include "stm32f0xx_ll_cortex.h"
 #include "stm32f0xx_ll_utils.h"
 #include "stm32f0xx_ll_pwr.h"
-#include "stm32f0xx_ll_spi.h"
 #include "stm32f0xx_ll_tim.h"
 #include "stm32f0xx_ll_usart.h"
 #include "stm32f0xx_ll_wwdg.h"
@@ -96,12 +95,12 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define DAT4_Pin LL_GPIO_PIN_13
-#define DAT4_GPIO_Port GPIOC
-#define DAT5_Pin LL_GPIO_PIN_14
-#define DAT5_GPIO_Port GPIOC
-#define DAT6_Pin LL_GPIO_PIN_15
-#define DAT6_GPIO_Port GPIOC
+#define DAT3_KEY_RIGHT_Pin LL_GPIO_PIN_13
+#define DAT3_KEY_RIGHT_GPIO_Port GPIOC
+#define DAT4_KEY_ENTER_Pin LL_GPIO_PIN_14
+#define DAT4_KEY_ENTER_GPIO_Port GPIOC
+#define DAT5_LCD_RS_Pin LL_GPIO_PIN_15
+#define DAT5_LCD_RS_GPIO_Port GPIOC
 #define LED_A1_Pin LL_GPIO_PIN_0
 #define LED_A1_GPIO_Port GPIOC
 #define LED_A2_Pin LL_GPIO_PIN_1
@@ -118,10 +117,6 @@ void Error_Handler(void);
 #define MAX485_TX_GPIO_Port GPIOA
 #define MAX485_RX_Pin LL_GPIO_PIN_3
 #define MAX485_RX_GPIO_Port GPIOA
-#define RELAY_CLOSURE_Pin LL_GPIO_PIN_4
-#define RELAY_CLOSURE_GPIO_Port GPIOF
-#define LIVEJUDGMENT_Pin LL_GPIO_PIN_5
-#define LIVEJUDGMENT_GPIO_Port GPIOF
 #define AD_TEM1_Pin LL_GPIO_PIN_4
 #define AD_TEM1_GPIO_Port GPIOA
 #define AD_HUM1_Pin LL_GPIO_PIN_5
@@ -142,32 +137,20 @@ void Error_Handler(void);
 #define LED_E1_GPIO_Port GPIOB
 #define LED_E2_Pin LL_GPIO_PIN_10
 #define LED_E2_GPIO_Port GPIOB
-#define LCD_RESET_Pin LL_GPIO_PIN_11
-#define LCD_RESET_GPIO_Port GPIOB
-#define LCD_CS_Pin LL_GPIO_PIN_12
-#define LCD_CS_GPIO_Port GPIOB
-#define LCD_SCK_Pin LL_GPIO_PIN_13
-#define LCD_SCK_GPIO_Port GPIOB
-#define LCD_RS_Pin LL_GPIO_PIN_14
-#define LCD_RS_GPIO_Port GPIOB
-#define LCD_MOSI_Pin LL_GPIO_PIN_15
-#define LCD_MOSI_GPIO_Port GPIOB
-#define NY_TxD_Pin LL_GPIO_PIN_8
-#define NY_TxD_GPIO_Port GPIOC
-#define NY_RxD_Pin LL_GPIO_PIN_9
-#define NY_RxD_GPIO_Port GPIOC
-#define NY_SCL_Pin LL_GPIO_PIN_8
-#define NY_SCL_GPIO_Port GPIOA
-#define IN_Ground_Pin LL_GPIO_PIN_11
-#define IN_Ground_GPIO_Port GPIOA
-#define IN_TestStatus_Pin LL_GPIO_PIN_12
+#define LIVEJUDGMENT_Pin LL_GPIO_PIN_11
+#define LIVEJUDGMENT_GPIO_Port GPIOB
+#define DAT6_LCD_MOSI_Pin LL_GPIO_PIN_15
+#define DAT6_LCD_MOSI_GPIO_Port GPIOB
+#define IN_Ground_Pin LL_GPIO_PIN_9
+#define IN_Ground_GPIO_Port GPIOC
+#define IN_TestStatus_Pin LL_GPIO_PIN_8
 #define IN_TestStatus_GPIO_Port GPIOA
+#define IN_WorkStatus_Pin LL_GPIO_PIN_11
+#define IN_WorkStatus_GPIO_Port GPIOA
+#define IN_SwitchOff_Pin LL_GPIO_PIN_12
+#define IN_SwitchOff_GPIO_Port GPIOA
 #define SWDIO_Pin LL_GPIO_PIN_13
 #define SWDIO_GPIO_Port GPIOA
-#define IN_WorkStatus_Pin LL_GPIO_PIN_6
-#define IN_WorkStatus_GPIO_Port GPIOF
-#define IN_SwitchOff_Pin LL_GPIO_PIN_7
-#define IN_SwitchOff_GPIO_Port GPIOF
 #define SWCLK_Pin LL_GPIO_PIN_14
 #define SWCLK_GPIO_Port GPIOA
 #define IN_SwitchOn_Pin LL_GPIO_PIN_15
@@ -186,14 +169,14 @@ void Error_Handler(void);
 #define ALARM_TEST1_GPIO_Port GPIOB
 #define ALARM_TEST2_Pin LL_GPIO_PIN_5
 #define ALARM_TEST2_GPIO_Port GPIOB
-#define DAT0_Pin LL_GPIO_PIN_6
-#define DAT0_GPIO_Port GPIOB
-#define DAT1_Pin LL_GPIO_PIN_7
-#define DAT1_GPIO_Port GPIOB
-#define DAT2_Pin LL_GPIO_PIN_8
-#define DAT2_GPIO_Port GPIOB
-#define DAT3_Pin LL_GPIO_PIN_9
-#define DAT3_GPIO_Port GPIOB
+#define RELAY_CLOSURE_Pin LL_GPIO_PIN_6
+#define RELAY_CLOSURE_GPIO_Port GPIOB
+#define DAT0_KEY_UP_Pin LL_GPIO_PIN_7
+#define DAT0_KEY_UP_GPIO_Port GPIOB
+#define DAT1_KEY_DOWN_Pin LL_GPIO_PIN_8
+#define DAT1_KEY_DOWN_GPIO_Port GPIOB
+#define DAT2_KEY_LEFT_Pin LL_GPIO_PIN_9
+#define DAT2_KEY_LEFT_GPIO_Port GPIOB
 #ifndef NVIC_PRIORITYGROUP_0
 #define NVIC_PRIORITYGROUP_0         ((uint32_t)0x00000007) /*!< 0 bit  for pre-emption priority,
                                                                  4 bits for subpriority */

@@ -35,13 +35,13 @@ void bxMiscInit(void)
 
 uint8_t bxMiscGetSlaveID(void)
 {
-    uint8_t value = LL_GPIO_IsInputPinSet(DAT6_GPIO_Port, BX_HAL_DATA6_PIN) << 6;
-    value |= LL_GPIO_IsInputPinSet(DAT5_GPIO_Port, BX_HAL_DATA5_PIN) << 5;
-    value |= LL_GPIO_IsInputPinSet(DAT4_GPIO_Port, BX_HAL_DATA4_PIN) << 4;
-    value |= LL_GPIO_IsInputPinSet(DAT3_GPIO_Port, BX_HAL_DATA3_PIN) << 3;
-    value |= LL_GPIO_IsInputPinSet(DAT2_GPIO_Port, BX_HAL_DATA2_PIN) << 2;
-    value |= LL_GPIO_IsInputPinSet(DAT1_GPIO_Port, BX_HAL_DATA1_PIN) << 1;
-    value |= LL_GPIO_IsInputPinSet(DAT0_GPIO_Port, BX_HAL_DATA0_PIN) << 0;
+    uint8_t value = LL_GPIO_IsInputPinSet(BX_HAL_DATA6_PORT, BX_HAL_DATA6_PIN) << 6;
+    value |= LL_GPIO_IsInputPinSet(BX_HAL_DATA5_PORT, BX_HAL_DATA5_PIN) << 5;
+    value |= LL_GPIO_IsInputPinSet(BX_HAL_DATA4_PORT, BX_HAL_DATA4_PIN) << 4;
+    value |= LL_GPIO_IsInputPinSet(BX_HAL_DATA3_PORT, BX_HAL_DATA3_PIN) << 3;
+    value |= LL_GPIO_IsInputPinSet(BX_HAL_DATA2_PORT, BX_HAL_DATA2_PIN) << 2;
+    value |= LL_GPIO_IsInputPinSet(BX_HAL_DATA1_PORT, BX_HAL_DATA1_PIN) << 1;
+    value |= LL_GPIO_IsInputPinSet(BX_HAL_DATA0_PORT, BX_HAL_DATA0_PIN) << 0;
 
     return value;
 }

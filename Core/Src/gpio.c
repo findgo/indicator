@@ -85,9 +85,6 @@ void MX_GPIO_Init(void)
   LL_GPIO_ResetOutputPin(LEDEnergyStorage_GPIO_Port, LEDEnergyStorage_Pin);
 
   /**/
-  LL_GPIO_ResetOutputPin(RELAY_CLOSURE_GPIO_Port, RELAY_CLOSURE_Pin);
-
-  /**/
   LL_GPIO_ResetOutputPin(LED_C1_GPIO_Port, LED_C1_Pin);
 
   /**/
@@ -118,37 +115,28 @@ void MX_GPIO_Init(void)
   LL_GPIO_ResetOutputPin(RELAY_ALARM2_GPIO_Port, RELAY_ALARM2_Pin);
 
   /**/
-  LL_GPIO_SetOutputPin(LCD_RESET_GPIO_Port, LCD_RESET_Pin);
+  LL_GPIO_ResetOutputPin(RELAY_CLOSURE_GPIO_Port, RELAY_CLOSURE_Pin);
 
   /**/
-  LL_GPIO_SetOutputPin(LCD_CS_GPIO_Port, LCD_CS_Pin);
+  LL_GPIO_SetOutputPin(IN_TestStatus_GPIO_Port, IN_TestStatus_Pin);
 
   /**/
-  LL_GPIO_SetOutputPin(LCD_RS_GPIO_Port, LCD_RS_Pin);
-
-  /**/
-  LL_GPIO_SetOutputPin(NY_TxD_GPIO_Port, NY_TxD_Pin);
-
-  /**/
-  LL_GPIO_SetOutputPin(NY_SCL_GPIO_Port, NY_SCL_Pin);
-
-  /**/
-  GPIO_InitStruct.Pin = DAT4_Pin;
+  GPIO_InitStruct.Pin = DAT3_KEY_RIGHT_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-  LL_GPIO_Init(DAT4_GPIO_Port, &GPIO_InitStruct);
+  LL_GPIO_Init(DAT3_KEY_RIGHT_GPIO_Port, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = DAT5_Pin;
+  GPIO_InitStruct.Pin = DAT4_KEY_ENTER_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-  LL_GPIO_Init(DAT5_GPIO_Port, &GPIO_InitStruct);
+  LL_GPIO_Init(DAT4_KEY_ENTER_GPIO_Port, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = DAT6_Pin;
+  GPIO_InitStruct.Pin = DAT5_LCD_RS_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-  LL_GPIO_Init(DAT6_GPIO_Port, &GPIO_InitStruct);
+  LL_GPIO_Init(DAT5_LCD_RS_GPIO_Port, &GPIO_InitStruct);
 
   /**/
   GPIO_InitStruct.Pin = LED_A1_Pin;
@@ -195,20 +183,6 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
   LL_GPIO_Init(LEDEnergyStorage_GPIO_Port, &GPIO_InitStruct);
-
-  /**/
-  GPIO_InitStruct.Pin = RELAY_CLOSURE_Pin;
-  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_MEDIUM;
-  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-  GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-  LL_GPIO_Init(RELAY_CLOSURE_GPIO_Port, &GPIO_InitStruct);
-
-  /**/
-  GPIO_InitStruct.Pin = LIVEJUDGMENT_Pin;
-  GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-  LL_GPIO_Init(LIVEJUDGMENT_GPIO_Port, &GPIO_InitStruct);
 
   /**/
   GPIO_InitStruct.Pin = LED_C1_Pin;
@@ -259,50 +233,16 @@ void MX_GPIO_Init(void)
   LL_GPIO_Init(LED_E2_GPIO_Port, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = LCD_RESET_Pin;
-  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_MEDIUM;
-  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-  GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-  LL_GPIO_Init(LCD_RESET_GPIO_Port, &GPIO_InitStruct);
-
-  /**/
-  GPIO_InitStruct.Pin = LCD_CS_Pin;
-  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
-  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-  GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-  LL_GPIO_Init(LCD_CS_GPIO_Port, &GPIO_InitStruct);
-
-  /**/
-  GPIO_InitStruct.Pin = LCD_RS_Pin;
-  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
-  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-  GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-  LL_GPIO_Init(LCD_RS_GPIO_Port, &GPIO_InitStruct);
-
-  /**/
-  GPIO_InitStruct.Pin = NY_TxD_Pin;
-  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
-  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-  GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-  LL_GPIO_Init(NY_TxD_GPIO_Port, &GPIO_InitStruct);
-
-  /**/
-  GPIO_InitStruct.Pin = NY_RxD_Pin;
+  GPIO_InitStruct.Pin = LIVEJUDGMENT_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-  LL_GPIO_Init(NY_RxD_GPIO_Port, &GPIO_InitStruct);
+  LL_GPIO_Init(LIVEJUDGMENT_GPIO_Port, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = NY_SCL_Pin;
-  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
-  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+  GPIO_InitStruct.Pin = DAT6_LCD_MOSI_Pin;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-  LL_GPIO_Init(NY_SCL_GPIO_Port, &GPIO_InitStruct);
+  LL_GPIO_Init(DAT6_LCD_MOSI_GPIO_Port, &GPIO_InitStruct);
 
   /**/
   GPIO_InitStruct.Pin = IN_Ground_Pin;
@@ -312,7 +252,9 @@ void MX_GPIO_Init(void)
 
   /**/
   GPIO_InitStruct.Pin = IN_TestStatus_Pin;
-  GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
   LL_GPIO_Init(IN_TestStatus_GPIO_Port, &GPIO_InitStruct);
 
@@ -385,28 +327,30 @@ void MX_GPIO_Init(void)
   LL_GPIO_Init(ALARM_TEST2_GPIO_Port, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = DAT0_Pin;
-  GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pin = RELAY_CLOSURE_Pin;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_MEDIUM;
+  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-  LL_GPIO_Init(DAT0_GPIO_Port, &GPIO_InitStruct);
+  LL_GPIO_Init(RELAY_CLOSURE_GPIO_Port, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = DAT1_Pin;
+  GPIO_InitStruct.Pin = DAT0_KEY_UP_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-  LL_GPIO_Init(DAT1_GPIO_Port, &GPIO_InitStruct);
+  LL_GPIO_Init(DAT0_KEY_UP_GPIO_Port, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = DAT2_Pin;
+  GPIO_InitStruct.Pin = DAT1_KEY_DOWN_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-  LL_GPIO_Init(DAT2_GPIO_Port, &GPIO_InitStruct);
+  LL_GPIO_Init(DAT1_KEY_DOWN_GPIO_Port, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = DAT3_Pin;
+  GPIO_InitStruct.Pin = DAT2_KEY_LEFT_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-  LL_GPIO_Init(DAT3_GPIO_Port, &GPIO_InitStruct);
+  LL_GPIO_Init(DAT2_KEY_LEFT_GPIO_Port, &GPIO_InitStruct);
 
 }
 

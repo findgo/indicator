@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>USE_FULL_LL_DRIVER,STM32F030x8,HSE_VALUE=8000000,HSE_STARTUP_TIMEOUT=100,LSE_STARTUP_TIMEOUT=5000,LSE_VALUE=32768,HSI_VALUE=8000000,LSI_VALUE=40000,VDD_VALUE=3300,PREFETCH_ENABLE=1,INSTRUCTION_CACHE_ENABLE=0,DATA_CACHE_ENABLE=0</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;    ../Drivers/STM32F0xx_HAL_Driver/Inc;    ../Drivers/CMSIS/Device/ST/STM32F0xx/Include;    ../Drivers/CMSIS/Include;    ..\bxCommon;    ..\bxDriver;    ..\bxModule;    ..\bxModule\mo;    ..\bxLib\UGUI;    ../Core/Inc;    ..\bxLib\modbus\include;    ..\bxLib\modbus\include\rtu;    ..\bxLib\modbus\port</IncludePath>
+              <IncludePath>../Inc;       ../Drivers/STM32F0xx_HAL_Driver/Inc;       ../Drivers/CMSIS/Device/ST/STM32F0xx/Include;       ../Drivers/CMSIS/Include;       ..\bxCommon;       ..\bxDriver;       ..\bxModule;       ..\bxModule\mo;       ..\bxLib\UGUI;       ../Core/Inc;       ..\bxLib\modbus\include;       ..\bxLib\modbus\include\rtu;       ..\bxLib\modbus\port</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -405,11 +405,6 @@
               <FileName>stm32f0xx_ll_dma.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_dma.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f0xx_ll_spi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_spi.c</FilePath>
             </File>
             <File>
               <FileName>stm32f0xx_ll_pwr.c</FileName>
@@ -691,11 +686,6 @@
               <FileName>dma.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/dma.c</FilePath>
-            </File>
-            <File>
-              <FileName>spi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Core/Src/spi.c</FilePath>
             </File>
             <File>
               <FileName>tim.c</FileName>

@@ -25,20 +25,20 @@
 
 
 // dat0 - dat6 used in misc
-#define BX_HAL_DATA0_PORT   DAT0_GPIO_Port
-#define BX_HAL_DATA0_PIN    DAT0_Pin
-#define BX_HAL_DATA1_PORT   DAT1_GPIO_Port
-#define BX_HAL_DATA1_PIN    DAT1_Pin
-#define BX_HAL_DATA2_PORT   DAT2_GPIO_Port
-#define BX_HAL_DATA2_PIN    DAT2_Pin
-#define BX_HAL_DATA3_PORT   DAT3_GPIO_Port
-#define BX_HAL_DATA3_PIN    DAT3_Pin
-#define BX_HAL_DATA4_PORT   DAT4_GPIO_Port
-#define BX_HAL_DATA4_PIN    DAT4_Pin
-#define BX_HAL_DATA5_PORT   DAT5_GPIO_Port
-#define BX_HAL_DATA5_PIN    DAT5_Pin
-#define BX_HAL_DATA6_PORT   DAT6_GPIO_Port
-#define BX_HAL_DATA6_PIN    DAT6_Pin
+#define BX_HAL_DATA0_PORT   DAT0_KEY_UP_GPIO_Port
+#define BX_HAL_DATA0_PIN    DAT0_KEY_UP_Pin
+#define BX_HAL_DATA1_PORT   DAT1_KEY_DOWN_GPIO_Port
+#define BX_HAL_DATA1_PIN    DAT1_KEY_DOWN_Pin
+#define BX_HAL_DATA2_PORT   DAT2_KEY_LEFT_GPIO_Port
+#define BX_HAL_DATA2_PIN    DAT2_KEY_LEFT_Pin
+#define BX_HAL_DATA3_PORT   DAT3_KEY_RIGHT_GPIO_Port
+#define BX_HAL_DATA3_PIN    DAT3_KEY_RIGHT_Pin
+#define BX_HAL_DATA4_PORT   DAT4_KEY_ENTER_GPIO_Port
+#define BX_HAL_DATA4_PIN    DAT4_KEY_ENTER_Pin
+#define BX_HAL_DATA5_PORT   DAT5_LCD_RS_GPIO_Port
+#define BX_HAL_DATA5_PIN    DAT5_LCD_RS_Pin
+#define BX_HAL_DATA6_PORT   DAT6_LCD_MOSI_GPIO_Port
+#define BX_HAL_DATA6_PIN    DAT6_LCD_MOSI_Pin
 
 
 // define coils  used in mcoils.h
@@ -103,6 +103,9 @@
 #define BX_HAL_IN_SPARE1_PORT           
 #define BX_HAL_IN_SPARE1_PIN            
 #define BX_HAL_IN_SPARE2_PORT           
-#define BX_HAL_IN_SPARE2_PIN            
+#define BX_HAL_IN_SPARE2_PIN      
+
+
+
 
 #endif

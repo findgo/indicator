@@ -52,19 +52,19 @@ void tasks_init_System(void)
 
     bxLedInit();  // 初始化灯控制器        test  ok
     mCoilsInit(); // 初始化继电器控制器  tes  t       ok
-    bxMiscInit();  // 初始化按键      test ok
     haladcInit();
-//    hmiInit();
-//    haladcInit();
     bxmbInit(); // 初始化modbus ok
-
+    //    hmiInit();
+    
+    bxMiscInit();  // 初始化按键      test ok
 
 // test 
-    bxLedset(BXLED_ALL, BXLED_MODE_ON); 
-    mCoilsSet(MCOILS_ALL, MCOILS_MODE_ON);
+//    bxLedset(BXLED_ALL, BXLED_MODE_ON); 
+//    mCoilsSet(MCOILS_ALL, MCOILS_MODE_ON);
 
     log_alertln("App start!");
 }
+
 void tasksPoll(void)
 {
     timerTask();
