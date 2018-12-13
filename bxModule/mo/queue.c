@@ -18,12 +18,12 @@ typedef struct Queue_s
 
 // local function 
 static void __CopyDataToQueue( Queue_t * const pxQueue, const void *pvItemToQueue, const uint8_t isFront );
-static void __CopyDataFromQueue( Queue_t * const pxQueue, void * const pvBuffer );
-static void __InitialiseNewQueue(Queue_t *pxNewQueue, const uint32_t uxQueueItemCap, const uint32_t uxItemSize, uint8_t *pucQueueStorage);
+static void __CopyDataFromQueue( Queue_t * const pxQueue, void *const pvBuffer );
+static void __InitialiseNewQueue(Queue_t * const pxNewQueue, const uint32_t uxQueueItemCap, const uint32_t uxItemSize, uint8_t *pucQueueStorage);
 #if( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
 QueueHandle_t queueNew( const uint32_t uxQueueItemCap, const uint32_t uxItemSize)
 {
-    Queue_t *pxNewQueue;
+    Queue_t * pxNewQueue;
     size_t xQueueSizeInBytes;
     uint8_t *pucQueueStorage;
 
@@ -44,8 +44,14 @@ QueueHandle_t queueNew( const uint32_t uxQueueItemCap, const uint32_t uxItemSize
 
     return ( QueueHandle_t )pxNewQueue;
 }
+
+void queueFree( const QueueHandle_t xQueue)
+{
+    mo_free(xQueue);
+}
+
 #endif
-QueueHandle_t queueAssign( QueueStatic_t *pxStaticQueue , const uint32_t uxQueueItemCap, const uint32_t uxItemSize, uint8_t *pucQueueStorage )
+QueueHandle_t queueAssign(QueueStatic_t *const pxStaticQueue , const uint32_t uxQueueItemCap, const uint32_t uxItemSize,  uint8_t *const pucQueueStorage )
 {
     Queue_t *pxNewQueue;
 
@@ -60,15 +66,15 @@ QueueHandle_t queueAssign( QueueStatic_t *pxStaticQueue , const uint32_t uxQueue
 
     /* The address of a statically allocated queue was passed in, use it.
     The address of a statically allocated storage area was also passed in but is already set. */
-    pxNewQueue = ( Queue_t * ) pxStaticQueue; /*lint !e740 Unusual cast is ok as the structures are designed to have the same alignment, and the size is checked by an assert. */
-
+    pxNewQueue = ( Queue_t * ) pxStaticQueue;
+    
     if( pxNewQueue ) {
         __InitialiseNewQueue( pxNewQueue, uxQueueItemCap, uxItemSize, pucQueueStorage );
     }
 
     return ( QueueHandle_t )pxNewQueue;
 }
-uint8_t queueReset( QueueHandle_t xQueue)
+uint8_t queueReset(const QueueHandle_t xQueue)
 {
     Queue_t * const pxQueue = ( Queue_t * ) xQueue;
 
@@ -123,7 +129,7 @@ static void __InitialiseNewQueue(Queue_t *pxNewQueue, const uint32_t uxQueueItem
     pxNewQueue->uxItemSize = uxItemSize;
     ( void ) queueReset( pxNewQueue );
 }
-uint8_t xQueueGenericPut( QueueHandle_t xQueue, const void * const pvItemToQueue , const uint8_t isFront )
+uint8_t xQueueGenericPut(const QueueHandle_t xQueue, const void * const pvItemToQueue , const uint8_t isFront )
 {
     Queue_t * const pxQueue = ( Queue_t * ) xQueue;
 
@@ -142,7 +148,7 @@ uint8_t xQueueGenericPut( QueueHandle_t xQueue, const void * const pvItemToQueue
     return FALSE;
 }
 
-uint8_t xQueueGenericPop( QueueHandle_t xQueue, void * const pvBuffer, const uint8_t isJustPeeking )
+uint8_t xQueueGenericPop(const QueueHandle_t xQueue, void * const pvBuffer, const uint8_t isJustPeeking )
 {
     int8_t *pcOriginalReadPosition;
     Queue_t * const pxQueue = ( Queue_t * ) xQueue;
@@ -170,7 +176,7 @@ uint8_t xQueueGenericPop( QueueHandle_t xQueue, void * const pvBuffer, const uin
     
     return FALSE;
 }
-void *xQueueOnAlloc( QueueHandle_t xQueue , const uint8_t isFront )
+void *xQueueOnAlloc(const QueueHandle_t xQueue , const uint8_t isFront )
 {
     int8_t *pcPutPosition;
     Queue_t * const pxQueue = ( Queue_t * ) xQueue;
@@ -244,12 +250,12 @@ uint32_t queueItemAvailableIdle( const QueueHandle_t xQueue )
     return (pxQueue->uItemCap - pxQueue->uItemCurCnt);
 }
 
-uint8_t queueIsQueueEmpty( const QueueHandle_t xQueue )
+uint8_t queueIsEmpty( const QueueHandle_t xQueue )
 {
    return (uint8_t )( ( ( Queue_t * )xQueue )->uItemCurCnt == ( uint32_t )  0 );
 }
 
-uint8_t queueIsQueueFull( const QueueHandle_t xQueue )
+uint8_t queueIsFull( const QueueHandle_t xQueue )
 {
         return (uint8_t )(( ( Queue_t *)xQueue )->uItemCurCnt == ( ( Queue_t *)xQueue )->uItemCap );
 }

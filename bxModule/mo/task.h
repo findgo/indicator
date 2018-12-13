@@ -34,9 +34,6 @@ typedef uint16_t (*pTaskFn_t)( uint8_t task_id, uint16_t event );
 extern void tasksPoll(void);
 extern void powerconserve(void);
 
-/* 注册任务,返回任务Id */
-uint8_t task_register(pTaskFn_t fn);
-
 /* 设置一个事件 */ 
 #define tasks_setEventFromISR(task_id, event_flag)  tasks_setEvent(task_id, event_flag);
 #define tasks_clearEventFromISR(task_id, event_flag)  tasks_clearEvent(task_id, event_flag);

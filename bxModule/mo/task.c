@@ -16,7 +16,6 @@ uint8_t task_register(pTaskFn_t fn)
 	return TASK_NO_TASKID;
 }
 
-
 void tasks_Run_System(void)
 {
     uint8_t idx = 0;
@@ -160,3 +159,4 @@ void *tasks_msg_peek(uint8_t task_id)
     
     return srcmsg;
 }
+

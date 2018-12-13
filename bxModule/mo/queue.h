@@ -1,3 +1,17 @@
+
+/**
+  ******************************************************************************
+  * @file 
+  * @author  
+  * @version 
+  * @date    
+  * @brief  
+  ******************************************************************************
+  * @attention 	20180920     v1.1   	jgb		
+  * @attention 	20181213     v1.2   	jgb		 提供释放队列句柄
+  ******************************************************************************
+  */
+
 /* 队列,操作和接收都会引起数据拷贝,*/
 
 
@@ -32,6 +46,12 @@ typedef struct QueueStatic_s
  * @return  句柄
  */
 QueueHandle_t queueNew( const uint32_t uxQueueItemCap, const uint32_t uxItemSize);
+/**
+ * @brief   释放动态分配队列句柄
+ * @param   xQueue - 句柄
+ * @return  句柄
+ */
+void queueFree( const QueueHandle_t xQueue);
 #endif
 /**
  * @brief   静态分配一个队列
@@ -40,13 +60,13 @@ QueueHandle_t queueNew( const uint32_t uxQueueItemCap, const uint32_t uxItemSize
  * @param   uxItemSize - 条目大小
  * @return  句柄
  */
-QueueHandle_t queueAssign( QueueStatic_t *pxStaticQueue , const uint32_t uxQueueItemCap, const uint32_t uxItemSize, uint8_t *pucQueueStorage );
+QueueHandle_t queueAssign( QueueStatic_t *const pxStaticQueue , const uint32_t uxQueueItemCap, const uint32_t uxItemSize, uint8_t *const pucQueueStorage );
 /**
  * @brief   清空队列
  * @param   xQueue - 句柄
  * @return  句柄
  */
-uint8_t queueReset( QueueHandle_t xQueue);
+uint8_t queueReset(const QueueHandle_t xQueue);
 /**
  * @brief   向队列尾(头)放入一个条目数据, 
  * @param   xQueue - 句柄
@@ -82,13 +102,13 @@ uint32_t queueItemAvailableIdle( const QueueHandle_t xQueue );
  * @param   xQueue - 句柄
  * @return  TRUE: empty , FALSE : not empty
  */
-uint8_t queueIsQueueEmpty( const QueueHandle_t xQueue );
+uint8_t queueIsEmpty( const QueueHandle_t xQueue );
 /**
  * @brief   队列满
  * @param   xQueue - 句柄
  * @return  TRUE: full , FALSE : not full
  */
-uint8_t queueIsQueueFull( const QueueHandle_t xQueue );
+uint8_t queueIsFull( const QueueHandle_t xQueue );
 
 /****************以下两个函数没有到非常了解,不得使用**************************************************************************************/
 //此API并没有引起拷贝数据,它只是先占好了放数据的位置,并返回指占位的指针,均是实际位置
@@ -102,9 +122,9 @@ void *queueOnPeek( QueueHandle_t xQueue );
 /******************************************************************************************************************************************/
 
 // internal used
-uint8_t xQueueGenericPut( QueueHandle_t xQueue, const void * const pvItemToQueue , const uint8_t isFront );
-uint8_t xQueueGenericPop( QueueHandle_t xQueue, void * const pvBuffer, const uint8_t isJustPeeking );
-void *xQueueOnAlloc( QueueHandle_t xQueue , const uint8_t isFront );
+uint8_t xQueueGenericPut(const QueueHandle_t xQueue, const void * const pvItemToQueue , const uint8_t isFront );
+uint8_t xQueueGenericPop(const QueueHandle_t xQueue, void * const pvBuffer, const uint8_t isJustPeeking );
+void *xQueueOnAlloc(const QueueHandle_t xQueue , const uint8_t isFront );
 
 #ifdef __cplusplus
 }

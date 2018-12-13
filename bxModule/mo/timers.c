@@ -31,13 +31,12 @@ typedef struct tmrTimerQueueMessage
 
 
 /*local funcition */
-static void __InitialiseNewTimer( tmrTimer_t *pxNewTimer , TimerCallbackFunction_t pxCallbackFunction, void *arg );
+static void __InitialiseNewTimer( tmrTimer_t *const pxNewTimer , TimerCallbackFunction_t pxCallbackFunction, void *arg );
 static void __CheckForValidListAndQueue( void ) ;
-static uint32_t __GetCurTimeTick(void);
 static uint8_t __InsertTimerInActiveList( tmrTimer_t * const pxTimer, const uint32_t xTimeNow , 
                                         const uint32_t xTimeoutInTicks, const uint32_t xMarkTimeInTicks);
-static uint8_t __GenericCommandReceived(tmrTimerQueueMessage_t *message);
-static void __ProcessReceivedCommands( uint32_t xTimeNow);
+static uint8_t __GenericCommandReceived(tmrTimerQueueMessage_t *const message);
+static void __ProcessReceivedCommands(const uint32_t xTimeNow);
 
 // local variable
 /* The list in which active timers are stored.  Timers are referenced in expire
@@ -58,7 +57,7 @@ static volatile uint32_t xLastTime = ( uint32_t ) 0U;
 /*
  * Called after a tmrTimer_t structure has been allocated either statically or dynamically to fill in the structure's members.
  */
-static void __InitialiseNewTimer( tmrTimer_t *pxNewTimer , TimerCallbackFunction_t pxCallbackFunction, void *arg ) 
+static void __InitialiseNewTimer( tmrTimer_t *const pxNewTimer , TimerCallbackFunction_t pxCallbackFunction, void *arg ) 
 {
     if( pxNewTimer ){
         /* Ensure the infrastructure used by the timer service task has been created/initialised. */
@@ -158,7 +157,7 @@ static uint8_t __InsertTimerInActiveList( tmrTimer_t * const pxTimer, const uint
     return xProcessTimerNow;
 }
 
-static uint8_t __GenericCommandReceived(tmrTimerQueueMessage_t *message)
+static uint8_t __GenericCommandReceived( tmrTimerQueueMessage_t *const message)
 {
     uint8_t bret;
     
@@ -172,7 +171,7 @@ static uint8_t __GenericCommandReceived(tmrTimerQueueMessage_t *message)
 /*
  *
  */
-static void __ProcessReceivedCommands( uint32_t xTimeNow)
+static void __ProcessReceivedCommands(const uint32_t xTimeNow)
 {
     tmrTimerQueueMessage_t xMessage;
     tmrTimer_t *pxTimer;
@@ -219,9 +218,15 @@ TimerHandle_t timerNew( TimerCallbackFunction_t pxCallbackFunction, void *arg)
 
     return ( TimerHandle_t )pxNewTimer;
 }
+
+void timerFree( const TimerHandle_t xTimer) 
+{
+    mo_free(xTimer);
+}
+
 #endif
 // ok
-TimerHandle_t timerAssign(TimerStatic_t *pxTimerBuffer, TimerCallbackFunction_t pxCallbackFunction, void *arg)
+TimerHandle_t timerAssign(TimerStatic_t *const pxTimerBuffer, TimerCallbackFunction_t pxCallbackFunction, void *arg)
 {
     tmrTimer_t *pxNewTimer;
 
@@ -237,9 +242,9 @@ TimerHandle_t timerAssign(TimerStatic_t *pxTimerBuffer, TimerCallbackFunction_t 
 
 /*-----------------------------------------------------------*/
 // ok
-uint8_t timerIsTimerActive( TimerHandle_t xTimer )
+uint8_t timerIsTimerActive(const TimerHandle_t xTimer )
 {
-    tmrTimer_t *pxTimer = ( tmrTimer_t * ) xTimer;
+    tmrTimer_t *const pxTimer = ( tmrTimer_t * ) xTimer;
 
     /* Is the timer in the list of active timers? */
     /* Checking to see if it is in the NULL list in effect checks to see if
@@ -249,7 +254,7 @@ uint8_t timerIsTimerActive( TimerHandle_t xTimer )
 } 
 /*-----------------------------------------------------------*/
 // ok
-uint8_t timerGenericCommandSend( TimerHandle_t xTimer, const uint32_t xCommandID, const uint32_t xTimeoutInTicks)
+uint8_t timerGenericCommandSend(const TimerHandle_t xTimer, const uint32_t xCommandID, const uint32_t xTimeoutInTicks)
 {
     uint8_t breturn;
     tmrTimerQueueMessage_t xMessage;
@@ -398,12 +403,5 @@ uint32_t timerGetNextTimeout(void)
     }
     
     return (xNextExpiryTime - xTimeNow) & 0xffffffffu;
-}
-
-
-
-static uint32_t __GetCurTimeTick(void)
-{
-    return mcu_getCurSysctime();    
 }
 
