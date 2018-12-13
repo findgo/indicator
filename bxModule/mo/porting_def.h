@@ -12,6 +12,7 @@
 #include <stddef.h>
 #include <string.h>
 
+//#define configSUPPORT_POWER_SAVING
 
 /* set support dynamic alloca compatibility. */
 #define configSUPPORT_DYNAMIC_ALLOCATION        1

@@ -26,7 +26,7 @@ typedef struct
     msg_q_t qhead;
 } msgbox_t;
 
-void *msgalloc( uint16_t msglen )
+void *msgalloc(const uint16_t msglen )
 {
     msg_hdr_t *hdr;
 
@@ -47,7 +47,7 @@ void *msgalloc( uint16_t msglen )
     return (void *)( NULL );
 }
 
-int msgdealloc( void *msg_ptr )
+int msgdealloc( void *const msg_ptr )
 {
     if ( msg_ptr == NULL )
         return ( MSG_INVALID_POINTER );
@@ -61,7 +61,7 @@ int msgdealloc( void *msg_ptr )
     return ( MSG_SUCCESS );
 }
 
-uint16_t msglen(void * msg_ptr)
+uint16_t msglen( void *const msg_ptr)
 {
     if(msg_ptr == NULL)
         return 0;
@@ -69,7 +69,7 @@ uint16_t msglen(void * msg_ptr)
     return MSG_HDR_LEN(msg_ptr);
 }
 
-int msgsetspare(void * msg_ptr, uint8_t val)
+int msgsetspare( void *const msg_ptr, const uint8_t val)
 {
     if ( msg_ptr == NULL )
         return ( MSG_INVALID_POINTER );
@@ -79,7 +79,7 @@ int msgsetspare(void * msg_ptr, uint8_t val)
     return MSG_SUCCESS;
 }
 
-uint8_t msgspare(void * msg_ptr)
+uint8_t msgspare( void *const msg_ptr)
 {
     if ( msg_ptr == NULL )
         return 0;
@@ -87,7 +87,7 @@ uint8_t msgspare(void * msg_ptr)
     return MSG_HDR_SPARE(msg_ptr);
 }
 
-msgboxhandle_t msgBoxNew(uint16_t MaxCap)
+msgboxhandle_t msgBoxNew(const uint16_t MaxCap)
 {
     msgbox_t *pNewmsgbox;
 
@@ -102,7 +102,7 @@ msgboxhandle_t msgBoxNew(uint16_t MaxCap)
     return (msgboxhandle_t )pNewmsgbox;
 }
 
-msgboxhandle_t msgBoxAssign(msgboxstatic_t *pmsgboxBuffer,uint16_t MaxCap)
+msgboxhandle_t msgBoxAssign(msgboxstatic_t *const pmsgboxBuffer, const uint16_t MaxCap)
 {
     msgbox_t *pNewmsgbox = ( msgbox_t * )pmsgboxBuffer;
 
@@ -115,7 +115,7 @@ msgboxhandle_t msgBoxAssign(msgboxstatic_t *pmsgboxBuffer,uint16_t MaxCap)
     return (msgboxhandle_t )pNewmsgbox;
 }
 
-uint16_t msgBoxcnt( msgboxhandle_t msgbox )
+uint16_t msgBoxcnt(const msgboxhandle_t msgbox )
 {
     if ( msgbox == NULL )
         return 0;
@@ -123,7 +123,7 @@ uint16_t msgBoxcnt( msgboxhandle_t msgbox )
     return MSGBOX_CNT(msgbox);
 }
 
-uint16_t msgBoxIdle( msgboxhandle_t msgbox )
+uint16_t msgBoxIdle(const msgboxhandle_t msgbox )
 {
     if ( msgbox == NULL )
         return 0;
@@ -132,7 +132,7 @@ uint16_t msgBoxIdle( msgboxhandle_t msgbox )
     return (MSGBOX_CAP(msgbox) - MSGBOX_CNT(msgbox));
 }
 
-void *msgBoxaccept( msgboxhandle_t msgbox )
+void *msgBoxaccept(const msgboxhandle_t msgbox )
 {
     // no message on the list
     if(MSGBOX_CNT(msgbox) == 0)
@@ -143,7 +143,7 @@ void *msgBoxaccept( msgboxhandle_t msgbox )
     return msgQpop(&MSGBOX_QHEAD(msgbox));
 }
 
-void *msgBoxpeek( msgboxhandle_t msgbox )
+void *msgBoxpeek(const msgboxhandle_t msgbox )
 {
     // no message on the list
     if(MSGBOX_CNT(msgbox) == 0)
@@ -152,7 +152,7 @@ void *msgBoxpeek( msgboxhandle_t msgbox )
     return msgQpeek(&MSGBOX_QHEAD(msgbox));
 }
 
-int msgBoxGenericpost(msgboxhandle_t msgbox, void *msg_ptr, uint8_t isfront )
+int msgBoxGenericpost(const msgboxhandle_t msgbox, void *const msg_ptr,const uint8_t isfront )
 {
     if ( msg_ptr == NULL || msgbox == NULL) {
         return ( MSG_INVALID_POINTER );
@@ -172,7 +172,7 @@ int msgBoxGenericpost(msgboxhandle_t msgbox, void *msg_ptr, uint8_t isfront )
     return ( MSG_SUCCESS );
 }
 
-void msgQGenericput( msg_q_t *q_ptr, void *msg_ptr, uint8_t isfront )
+void msgQGenericput(msg_q_t *const q_ptr, void *const msg_ptr,const uint8_t isfront )
 {
     void *list;
 
@@ -200,7 +200,7 @@ void msgQGenericput( msg_q_t *q_ptr, void *msg_ptr, uint8_t isfront )
 }
 
 //ok
-void *msgQpop( msg_q_t *q_ptr )
+void *msgQpop( msg_q_t *const q_ptr )
 {
     void *msg_ptr = NULL;
 
@@ -215,14 +215,14 @@ void *msgQpop( msg_q_t *q_ptr )
   return msg_ptr;
 }
 //ok
-void *msgQpeek( msg_q_t *q_ptr )
+void *msgQpeek( msg_q_t *const q_ptr )
 {
     return (void *)(*q_ptr);    
 }
 
 //ok
 // Take out of the link list
-void msgQextract( msg_q_t *q_ptr, void *msg_ptr, void *premsg_ptr )
+void msgQextract( msg_q_t *const q_ptr, void *const msg_ptr, void *const premsg_ptr )
 {
     if ( msg_ptr == *q_ptr ) {
         // remove from first
@@ -236,7 +236,11 @@ void msgQextract( msg_q_t *q_ptr, void *msg_ptr, void *premsg_ptr )
     MSG_HDR_MARK( msg_ptr ) = FALSE;
 }
 // get next message
-void *msgQnext(void *msg_ptr)
+void *msgQnext(void *const msg_ptr)
 {
     return MSG_HDR_NEXT( msg_ptr );
 }
+
+
+
+
