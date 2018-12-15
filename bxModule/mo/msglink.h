@@ -46,16 +46,14 @@ typedef struct {
     uint16_t dumy0; 
     uint16_t dumy1;
     void *pdumy2;
-}msgboxstatic_t;
-// 信息句柄
-typedef void *msgboxhandle_t;
+}msgbox_t;
+
 // 队列
 typedef void *msg_q_t;
 
 //静态初始化一个信息邮箱句柄缓存
 #define MSGBOX_STATIC_INIT(MaxCap) { 0, (MaxCap), NULL}
-// 静态缓存转化成句柄
-#define MSGBOX_STATIC_TO_HANDLE(pmsgBoxStatic) ((msgboxhandle_t *)pmsgBoxStatic)
+
 // 信息
 /**
  * @brief   分配一个信息
@@ -94,47 +92,47 @@ int msgsetspare(void *const msg_ptr,const uint8_t val);
  * @param   MaxCap - 邮箱最大存储能力,不限制设置为 MSGBOX_UNLIMITED_CAP
  * @return 返回句柄
  */
-msgboxhandle_t msgBoxNew(const uint16_t MaxCap);
+msgbox_t * msgBoxNew(const uint16_t MaxCap);
 /**
  * @brief   用静态邮箱句柄缓存 创建 一个信息邮箱句柄
  * @param   MaxCap - 邮箱最大存储能力,不限制设置为 MSGBOX_UNLIMITED_CAP
  * @return 返回句柄
  */
-msgboxhandle_t msgBoxAssign(msgboxstatic_t *const pmsgboxBuffer,const uint16_t MaxCap);
+void msgBoxAssign(msgbox_t *const pmsgboxBuffer, const uint16_t MaxCap);
 /**
  * @brief   获得信息邮箱中信息数量
- * @param   msgboxhandle_t - 信息邮箱句柄
+ * @param   msgbox_t * - 信息邮箱句柄
  * @return  信息数量
  */
-uint16_t msgBoxcnt(const msgboxhandle_t      msgbox);
+uint16_t msgBoxcnt( msgbox_t *const      msgbox);
 /**
  * @brief   获得信息邮箱中空闲全置数量
- * @param   msgboxhandle_t - 信息邮箱句柄
+ * @param   msgbox_t * - 信息邮箱句柄
  * @return  空闲位置数量
  */
-uint16_t msgBoxIdle(const msgboxhandle_t msgbox );
+uint16_t msgBoxIdle(msgbox_t *const msgbox );
 /**
  * @brief   取出信息邮箱一条信息
- * @param   msgboxhandle_t - 信息邮箱句柄
+ * @param   msgbox_t * - 信息邮箱句柄
  * @return  有信息返回信息指针,否则为NULL
  */
-void *msgBoxaccept(const msgboxhandle_t msgbox);
+void *msgBoxaccept( msgbox_t *const msgbox);
 /**
  * @brief   查看信息邮箱第一条信息,但并不取出
- * @param   msgboxhandle_t - 信息邮箱句柄
+ * @param   msgbox_t * - 信息邮箱句柄
  * @return  有信息返回信息指针,否则为NULL
  */
-void *msgBoxpeek(const msgboxhandle_t msgbox );
+void *msgBoxpeek( msgbox_t *const msgbox );
 /**
  * @brief   向信息邮箱发送一条信息
- * @param   msgboxhandle_t - 信息邮箱句柄
+ * @param   msgbox_t * - 信息邮箱句柄
  * @param   msg_ptr - 信息指针
  * @return  返回错误码
  */
 #define msgBoxpost(msgbox, msg_ptr)        msgBoxGenericpost(msgbox, msg_ptr, FALSE)
 /**
  * @brief   向信息邮箱头 发送一条信息
- * @param   msgboxhandle_t - 信息邮箱句柄
+ * @param   msgbox_t * - 信息邮箱句柄
  * @param   msg_ptr - 信息指针
  * @return  返回错误码
  */
@@ -218,12 +216,12 @@ void msgQextract( msg_q_t *const q_ptr, void *const msg_ptr, void *const premsg_
 /*********************** 内部API,不可独立调用**********************************************/
 /**
  * @brief   向信息邮箱 发送一条信息
- * @param   msgboxhandle_t - 信息邮箱句柄
+ * @param   msgbox_t * - 信息邮箱句柄
  * @param   msg_ptr - 信息指针
  * @param   isfront - FALSE: 放入信息邮箱尾 : TRUE: 放入信息邮箱头
  * @return  返回错误码
  */
-int msgBoxGenericpost(const msgboxhandle_t msgbox,void *const msg_ptr, const uint8_t isfront);
+int msgBoxGenericpost( msgbox_t *const msgbox,void *const msg_ptr, const uint8_t isfront);
 /**
  * @brief   向信息队列头 发送一条信息
  * @param   q_ptr - 信息队列头

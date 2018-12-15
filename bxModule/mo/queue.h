@@ -9,6 +9,7 @@
   ******************************************************************************
   * @attention 	20180920     v1.1   	jgb		
   * @attention 	20181213     v1.2   	jgb		 提供释放队列句柄
+  * @attention 	20181213     v1.3   	jgb		 除去句柄,减少使用中的内存消耗
   ******************************************************************************
   */
 
@@ -26,16 +27,12 @@
 extern "C" {
 #endif
 
-// 句柄
-typedef void * QueueHandle_t;
-
-
 //静态结构体,用于屏蔽用户对结构体的可见
-typedef struct QueueStatic_s
+typedef struct queue_s
 {
     void *pvDummy0[ 4 ];
     uint32_t uxDummy1[ 3 ];
-} QueueStatic_t;
+} queue_t;
 
 
 #if( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
@@ -45,28 +42,28 @@ typedef struct QueueStatic_s
  * @param   uxItemSize - 条目大小
  * @return  句柄
  */
-QueueHandle_t queueNew( const uint32_t uxQueueItemCap, const uint32_t uxItemSize);
+queue_t *queueNew( const uint32_t uxQueueItemCap, const uint32_t uxItemSize);
 /**
  * @brief   释放动态分配队列句柄
  * @param   xQueue - 句柄
  * @return  句柄
  */
-void queueFree( const QueueHandle_t xQueue);
+void queueFree(  queue_t *const xQueue);
 #endif
 /**
- * @brief   静态分配一个队列
+ * @brief   静态初始化队列
  * @param   pxStaticQueue - 静态队列缓冲区
  * @param   uxQueueItemCap - 队列装条目的能力
  * @param   uxItemSize - 条目大小
- * @return  句柄
+ * @return  
  */
-QueueHandle_t queueAssign( QueueStatic_t *const pxStaticQueue , const uint32_t uxQueueItemCap, const uint32_t uxItemSize, uint8_t *const pucQueueStorage );
+void queueAssign( queue_t *const pxStaticQueue , const uint32_t uxQueueItemCap, const uint32_t uxItemSize, uint8_t *const pucQueueStorage );
 /**
  * @brief   清空队列
  * @param   xQueue - 句柄
  * @return  句柄
  */
-uint8_t queueReset(const QueueHandle_t xQueue);
+uint8_t queueReset( queue_t *const xQueue);
 /**
  * @brief   向队列尾(头)放入一个条目数据, 
  * @param   xQueue - 句柄
@@ -90,25 +87,25 @@ uint8_t queueReset(const QueueHandle_t xQueue);
  * @param   xQueue - 句柄
  * @return  count
  */
-uint32_t queueItemAvailableValid(const QueueHandle_t xQueue );
+uint32_t queueItemAvailableValid(  queue_t *const xQueue );
 /**
  * @brief   队列空闲条目空间数
  * @param   xQueue - 句柄
  * @return  count
  */
-uint32_t queueItemAvailableIdle( const QueueHandle_t xQueue );
+uint32_t queueItemAvailableIdle(  queue_t *const xQueue );
 /**
  * @brief   队列空
  * @param   xQueue - 句柄
  * @return  TRUE: empty , FALSE : not empty
  */
-uint8_t queueIsEmpty( const QueueHandle_t xQueue );
+uint8_t queueIsEmpty(  queue_t *const xQueue );
 /**
  * @brief   队列满
  * @param   xQueue - 句柄
  * @return  TRUE: full , FALSE : not full
  */
-uint8_t queueIsFull( const QueueHandle_t xQueue );
+uint8_t queueIsFull(  queue_t *const xQueue );
 
 /****************以下两个函数没有到非常了解,不得使用**************************************************************************************/
 //此API并没有引起拷贝数据,它只是先占好了放数据的位置,并返回指占位的指针,均是实际位置
@@ -118,13 +115,13 @@ uint8_t queueIsFull( const QueueHandle_t xQueue );
 #define queueOnAllocFront( xQueue ) xQueueOnAlloc( xQueue, TRUE )
 //此API并没有读回数据,而只是获取当前要出队的数据指针,这些操作均在实际数据上操作
 /* 使用方法,调用queueOnPeek,然后直接转换,直接读数据,注意不要超过uxItemSize大小,使用完后,的确需要释放,调用queuePop并指定第二参数为NULL */
-void *queueOnPeek( QueueHandle_t xQueue );
+void *queueOnPeek( queue_t *const xQueue );
 /******************************************************************************************************************************************/
 
 // internal used
-uint8_t xQueueGenericPut(const QueueHandle_t xQueue, const void * const pvItemToQueue , const uint8_t isFront );
-uint8_t xQueueGenericPop(const QueueHandle_t xQueue, void * const pvBuffer, const uint8_t isJustPeeking );
-void *xQueueOnAlloc(const QueueHandle_t xQueue , const uint8_t isFront );
+uint8_t xQueueGenericPut( queue_t *const xQueue, const void * const pvItemToQueue , const uint8_t isFront );
+uint8_t xQueueGenericPop( queue_t *const xQueue, void * const pvBuffer, const uint8_t isJustPeeking );
+void *xQueueOnAlloc( queue_t *const xQueue , const uint8_t isFront );
 
 #ifdef __cplusplus
 }

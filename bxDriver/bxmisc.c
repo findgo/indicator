@@ -14,23 +14,21 @@ static void bxMiscCheckHandle(uint16_t cks, uint8_t isHigh);
 
 static void haladcCB(void *arg);;
 
-static TimerHandle_t adctimeHandle;
-static TimerStatic_t adctimer;
+static timer_t adctimer;
 
-static TimerHandle_t misctimeHandle;
-static TimerStatic_t misctimer;
-static mkeycfgStatic_t keycfg;
+static timer_t misctimer;
+static mkeycfg_t keycfg;
 
 void bxMiscInit(void)
 {  
     mkeyAssign(&keycfg,  halkeySwitchModeIsDown, MKEY_PRESS1_DOWN, MKEY_NULL, MKEY_NULL, 0, 0, 0);
     bxMiscCheckInit();
 
-    misctimeHandle = timerAssign(&misctimer, bxMiscScanCB , (void *)&misctimeHandle);
-    timerStart(misctimeHandle, BX_MISC_SCAN_TIME);
+    timerAssign(&misctimer, bxMiscScanCB , (void *)&misctimer);
+    timerStart(&misctimer, BX_MISC_SCAN_TIME);
     
-    adctimeHandle = timerAssign(&adctimer, haladcCB , (void *)&adctimeHandle);
-    timerStart(adctimeHandle, HAL_ADC_SCAN_TIME);
+    timerAssign(&adctimer, haladcCB , (void *)&adctimer);
+    timerStart(&adctimer, HAL_ADC_SCAN_TIME);
 }
 
 uint8_t bxMiscGetSlaveID(void)
@@ -55,7 +53,7 @@ static void bxMiscScanCB(void *arg)
 {
     mkeydecetor_task();
     mcks_Task();
-    timerRestart(*((TimerHandle_t *)arg), BX_MISC_SCAN_TIME);
+    timerRestart((timer_t *)arg, BX_MISC_SCAN_TIME);
 }
 
 
@@ -74,7 +72,7 @@ static void haladcCB(void *arg)
     //log_debugln("humi2: %d", adcGetRawValue(ADC_NTC4));
     //TODO: your job
     
-    timerRestart(*((TimerHandle_t *)arg), HAL_ADC_SCAN_TIME);
+    timerRestart((timer_t *)arg, HAL_ADC_SCAN_TIME);
 }
 
 static void bxMiscCheckInit(void)

@@ -48,8 +48,8 @@ static List_t *pxCurrentTimerList;
 static List_t *pxOverflowTimerList;
 
 /* A queue that is used to send commands to the timer service task. */
-static QueueHandle_t xTimerQueueHandle = NULL;
-static QueueStatic_t xTimerQueueStatic;
+static bool bTimerInitialised = FALSE;
+static queue_t xTimerQueue;
 static uint8_t ucTimerQueueStorageStatic[ configTIMER_QUEUE_LENGTH * sizeof( tmrTimerQueueMessage_t ) ];
 
 static volatile uint32_t xLastTime = ( uint32_t ) 0U; 
@@ -77,14 +77,15 @@ static void __CheckForValidListAndQueue( void )
 {
     /* Check that the list from which active timers are referenced, and the
     queue used to communicate with the timer service, have been initialised. */
-    if( xTimerQueueHandle == NULL ){
+    if( bTimerInitialised == FALSE ){
         listInitialise( &xActiveTimerList1 );
         listInitialise( &xActiveTimerList2 );
         pxCurrentTimerList = &xActiveTimerList1;
         pxOverflowTimerList = &xActiveTimerList2;
 
         // 创建一个消息队列用于发送消息
-        xTimerQueueHandle = queueAssign(&xTimerQueueStatic, configTIMER_QUEUE_LENGTH, sizeof(tmrTimerQueueMessage_t), &( ucTimerQueueStorageStatic[ 0 ]));
+        queueAssign(&xTimerQueue, configTIMER_QUEUE_LENGTH, sizeof(tmrTimerQueueMessage_t), &( ucTimerQueueStorageStatic[ 0 ]));
+        bTimerInitialised = TRUE;
     }
 }
 /*
@@ -162,7 +163,7 @@ static uint8_t __GenericCommandReceived( tmrTimerQueueMessage_t *const message)
     uint8_t bret;
     
     taskENTER_CRITICAL();
-    bret = queuePop( xTimerQueueHandle, message );
+    bret = queuePop( &xTimerQueue, message );
     taskEXIT_CRITICAL();
 
     return bret;
@@ -206,7 +207,7 @@ static void __ProcessReceivedCommands(const uint32_t xTimeNow)
 }
 
 #if( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
-TimerHandle_t timerNew( TimerCallbackFunction_t pxCallbackFunction, void *arg) 
+timer_t * timerNew( TimerCallbackFunction_t pxCallbackFunction, void *arg) 
 {
     tmrTimer_t *pxNewTimer;
 
@@ -216,33 +217,29 @@ TimerHandle_t timerNew( TimerCallbackFunction_t pxCallbackFunction, void *arg)
         __InitialiseNewTimer(pxNewTimer, pxCallbackFunction, arg );
     }
 
-    return ( TimerHandle_t )pxNewTimer;
+    return ( timer_t * )pxNewTimer;
 }
 
-void timerFree( const TimerHandle_t xTimer) 
+void timerFree( timer_t *const xTimer) 
 {
     mo_free(xTimer);
 }
 
 #endif
 // ok
-TimerHandle_t timerAssign(TimerStatic_t *const pxTimerBuffer, TimerCallbackFunction_t pxCallbackFunction, void *arg)
+void timerAssign(timer_t *const xTimer, TimerCallbackFunction_t pxCallbackFunction, void *arg)
 {
-    tmrTimer_t *pxNewTimer;
-
-    pxNewTimer = ( tmrTimer_t * ) pxTimerBuffer; /*lint !e740 Unusual cast is ok as the structures are designed to have the same alignment, and the size is checked by an assert. */
-
+    tmrTimer_t *pxNewTimer = ( tmrTimer_t * ) xTimer; 
+    
     if( pxNewTimer ){
         __InitialiseNewTimer(pxNewTimer, pxCallbackFunction, arg );
     }
-
-    return ( TimerHandle_t )pxNewTimer;
 }
 /*-----------------------------------------------------------*/
 
 /*-----------------------------------------------------------*/
 // ok
-uint8_t timerIsTimerActive(const TimerHandle_t xTimer )
+uint8_t timerIsTimerActive( timer_t *const xTimer )
 {
     tmrTimer_t *const pxTimer = ( tmrTimer_t * ) xTimer;
 
@@ -254,14 +251,14 @@ uint8_t timerIsTimerActive(const TimerHandle_t xTimer )
 } 
 /*-----------------------------------------------------------*/
 // ok
-uint8_t timerGenericCommandSend(const TimerHandle_t xTimer, const uint32_t xCommandID, const uint32_t xTimeoutInTicks)
+uint8_t timerGenericCommandSend( timer_t *const xTimer, const uint32_t xCommandID, const uint32_t xTimeoutInTicks)
 {
     uint8_t breturn;
     tmrTimerQueueMessage_t xMessage;
     isrSaveCriticial_status_Variable;
     
     /* Send a message to the timer service task to perform a particular action on a particular timer definition. */
-    if( xTimerQueueHandle ){
+    if( bTimerInitialised == TRUE ){
         /* Send a command to the timer service task to start the xTimer timer. */
         xMessage.xMessageID = xCommandID;
         xMessage.xTimeoutInTicks = xTimeoutInTicks;
@@ -270,7 +267,7 @@ uint8_t timerGenericCommandSend(const TimerHandle_t xTimer, const uint32_t xComm
         isrENTER_CRITICAL();
         // get when send this command for mark
         xMessage.xMarkTimeInTicks = __GetCurTimeTick();;
-        breturn = queuePutBack( xTimerQueueHandle, &xMessage);
+        breturn = queuePutBack( &xTimerQueue, &xMessage);
         isrEXIT_CRITICAL();
     }
     

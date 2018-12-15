@@ -55,7 +55,7 @@ typedef struct {
     uint8_t xDummy8;
     uint8_t xDummy9;
     uint8_t xDummy10;
-}mkeycfgStatic_t;
+}mkeycfg_t;
 
 /*按键值 用户修改*/
 enum
@@ -67,7 +67,7 @@ enum
 	MKEY_PRESS1_UP
 };
 
-void mkeyAssign(mkeycfgStatic_t *cfg,
+void mkeyAssign(mkeycfg_t *cfg,
                 mKeyDownFunc_t IsmKeyDownFunc_t,    // 定义该函数 按键下 返回1
                 uint8_t KeyCodeDown,                // 短按编码, 为MKEY_NULL将忽略短按
                 uint8_t KeyCodeLong,                // 长按编码

@@ -17,7 +17,6 @@ static uint16_t PreledsBlinkstatus;  // 保存闪烁前的状态
 
 static ledcontrol_t ledseqControl[bxLEDSNUM];
 static TimerStatic_t ledtimer;
-static TimerHandle_t ledhandle;
 #endif
 static void ledlowOnOff( uint16_t leds, uint8_t val );
 
@@ -34,7 +33,7 @@ static void bxLEDupdateCB(void *arg);
 void bxLedInit(void)
 {
 #if configBLINK_LED > 0
-    ledhandle = timerAssign(&ledtimer, bxLEDupdateCB , (void *)&ledhandle);
+    timerAssign(&ledtimer, bxLEDupdateCB , (void *)&ledtimer);
     
     memset(ledseqControl, 0, sizeof(ledcontrol_t) * bxLEDSNUM );
  #endif   
@@ -168,7 +167,7 @@ void bxLedsetblink(uint16_t leds, uint8_t numBlinks, uint8_t duty, uint32_t peri
             sts++;      //下一个灯
         }
         // blink it now
-        timerStart(ledhandle, 0);
+        timerStart(&ledtimer, 0);
     }
     else {
         bxLEDset(leds, BXLED_MODE_ON);
@@ -254,7 +253,7 @@ static void bxLedupdateCB(void *arg)
     }
 
     if(next){
-        timerRestart(*((TimerHandle_t *)arg), next);
+        timerRestart((timer_t *)arg, next);
     }
 }
 #endif

@@ -38,14 +38,12 @@ extern "C" {
 
 
 //静态结构体,用于屏蔽用户对结构体的可见
-typedef struct TimerStatic_s
+typedef struct timer_s
 {
     ListItemStatic_t    xDummy0;
     void                *pvDummy1[2];
-} TimerStatic_t;
+} timer_t;
 
-/* timer handle 时间句柄 */
-typedef void * TimerHandle_t;
 /* Defines the prototype to which timer callback functions must conform. 回调定义*/
 typedef void (*TimerCallbackFunction_t)( void* arg );
 
@@ -56,13 +54,13 @@ typedef void (*TimerCallbackFunction_t)( void* arg );
  * @param   arg - 回调函数参数
  * @return  成功返回句柄,否则NULL
  */
-TimerHandle_t timerNew( TimerCallbackFunction_t pxCallbackFunction, void * arg) ;
+timer_t *timerNew( TimerCallbackFunction_t pxCallbackFunction, void * arg) ;
 /**
  * @brief   释入时间句柄
  * @param   xTimer - 句柄 
- * @return  成功返回句柄,否则NULL
+ * @return  
  */
-void timerFree( const TimerHandle_t xTimer);
+void timerFree(     timer_t *const xTimer);
 #endif
 /**
  * @brief   静态分配一个时间句柄
@@ -71,19 +69,19 @@ void timerFree( const TimerHandle_t xTimer);
  * @param   arg - 回调函数参数
  * @return  成功返回句柄,否则NULL
  */
-TimerHandle_t timerAssign(TimerStatic_t *const pxTimerBuffer, TimerCallbackFunction_t pxCallbackFunction, void * arg) ; 
+void timerAssign(timer_t *const xTimer, TimerCallbackFunction_t pxCallbackFunction, void * arg);
 /**
  * @brief   查看时间句柄是否活跃在时间任务队列中
  * @param   xTimer - 时间句柄
  * @return  TRUE: active FALSE: not active
  */
-uint8_t timerIsTimerActive( const TimerHandle_t xTimer );
+uint8_t timerIsTimerActive( timer_t *const xTimer );
 /**
  * @brief   获得下一次超时到期时间
  * @param   无
  * @return  超时时间值, 如果队列无等任务,将返回最大值0xffffffff
  */
-uint32_t timerGetNextTimeout(void);
+uint32_t timerGetNextTimeout( void );
 /**
  * @brief   任务函数,循环调用,或1ms调用, 需要实现内部API __GetCurTimeTick
  * @param   无
@@ -107,7 +105,7 @@ void timerTask( void );
 #define timerDeleteFromISR( xTimer )           timerDelete( xTimer )
 
 // internal function do not use it
-uint8_t timerGenericCommandSend(const TimerHandle_t xTimer, const uint32_t xCommandID, const uint32_t xTimeoutInTicks);
+uint8_t timerGenericCommandSend(timer_t *const xTimer, const uint32_t xCommandID, const uint32_t xTimeoutInTicks);
 
 #ifdef __cplusplus
 }

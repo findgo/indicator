@@ -13,17 +13,17 @@ typedef struct Queue_s
     volatile uint32_t uItemCurCnt;   /*< The number of items currently in the queue. */
     uint32_t uItemCap;                  /*< The length of the queue defined as the number of items it will hold, not the number of bytes. */
     uint32_t uxItemSize;                /*< The size of each items that the queue will hold. */
-} Queue_t;
-
+} QueueInner_t;
 
 // local function 
-static void __CopyDataToQueue( Queue_t * const pxQueue, const void *pvItemToQueue, const uint8_t isFront );
-static void __CopyDataFromQueue( Queue_t * const pxQueue, void *const pvBuffer );
-static void __InitialiseNewQueue(Queue_t * const pxNewQueue, const uint32_t uxQueueItemCap, const uint32_t uxItemSize, uint8_t *pucQueueStorage);
+static void __CopyDataToQueue( QueueInner_t * const pxQueue, const void *pvItemToQueue, const uint8_t isFront );
+static void __CopyDataFromQueue( QueueInner_t * const pxQueue, void *const pvBuffer );
+static void __InitialiseNewQueue(QueueInner_t * const pxNewQueue, const uint32_t uxQueueItemCap, const uint32_t uxItemSize, uint8_t *pucQueueStorage);
+
 #if( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
-QueueHandle_t queueNew( const uint32_t uxQueueItemCap, const uint32_t uxItemSize)
+queue_t * queueNew( const uint32_t uxQueueItemCap, const uint32_t uxItemSize)
 {
-    Queue_t * pxNewQueue;
+    QueueInner_t * pxNewQueue;
     size_t xQueueSizeInBytes;
     uint8_t *pucQueueStorage;
 
@@ -33,27 +33,27 @@ QueueHandle_t queueNew( const uint32_t uxQueueItemCap, const uint32_t uxItemSize
     /* Allocate enough space to hold the maximum number of items that can be in the queue at any time. */
     xQueueSizeInBytes = ( size_t ) ( uxQueueItemCap * uxItemSize );
 
-    pxNewQueue = ( Queue_t * ) mo_malloc( sizeof( Queue_t ) + xQueueSizeInBytes );
+    pxNewQueue = ( QueueInner_t * ) mo_malloc( sizeof( QueueInner_t ) + xQueueSizeInBytes );
 
     if( pxNewQueue ){
         /* Jump past the queue structure to find the location of the queue storage area. */
-        pucQueueStorage = ( ( uint8_t * ) pxNewQueue ) + sizeof( Queue_t );
+        pucQueueStorage = ( ( uint8_t * ) pxNewQueue ) + sizeof( QueueInner_t );
 
         __InitialiseNewQueue( pxNewQueue, uxQueueItemCap, uxItemSize, pucQueueStorage);
     }
 
-    return ( QueueHandle_t )pxNewQueue;
+    return ( queue_t * )pxNewQueue;
 }
 
-void queueFree( const QueueHandle_t xQueue)
+void queueFree(  queue_t *const xQueue)
 {
     mo_free(xQueue);
 }
 
 #endif
-QueueHandle_t queueAssign(QueueStatic_t *const pxStaticQueue , const uint32_t uxQueueItemCap, const uint32_t uxItemSize,  uint8_t *const pucQueueStorage )
+void queueAssign(queue_t *const pxStaticQueue , const uint32_t uxQueueItemCap, const uint32_t uxItemSize,  uint8_t *const pucQueueStorage )
 {
-    Queue_t *pxNewQueue;
+    QueueInner_t *pxNewQueue;
 
     configASSERT( uxQueueItemCap > ( uint32_t ) 0 );
     configASSERT( uxItemSize > ( uint32_t ) 0 );
@@ -66,17 +66,15 @@ QueueHandle_t queueAssign(QueueStatic_t *const pxStaticQueue , const uint32_t ux
 
     /* The address of a statically allocated queue was passed in, use it.
     The address of a statically allocated storage area was also passed in but is already set. */
-    pxNewQueue = ( Queue_t * ) pxStaticQueue;
+    pxNewQueue = ( QueueInner_t * ) pxStaticQueue;
     
     if( pxNewQueue ) {
         __InitialiseNewQueue( pxNewQueue, uxQueueItemCap, uxItemSize, pucQueueStorage );
     }
-
-    return ( QueueHandle_t )pxNewQueue;
 }
-uint8_t queueReset(const QueueHandle_t xQueue)
+uint8_t queueReset( queue_t *const xQueue)
 {
-    Queue_t * const pxQueue = ( Queue_t * ) xQueue;
+    QueueInner_t *const pxQueue = ( QueueInner_t * ) xQueue;
 
     configASSERT( pxQueue );
     
@@ -88,7 +86,7 @@ uint8_t queueReset(const QueueHandle_t xQueue)
     /* A value is returned for calling semantic consistency with previous versions. */
     return TRUE;
 }
-static void __CopyDataToQueue( Queue_t * const pxQueue, const void *pvItemToQueue, const uint8_t isFront )
+static void __CopyDataToQueue( QueueInner_t * const pxQueue, const void *pvItemToQueue, const uint8_t isFront )
 {
     if( isFront == FALSE ){
         ( void ) memcpy( ( void * ) pxQueue->pcWriteTo, pvItemToQueue, ( size_t ) pxQueue->uxItemSize ); 
@@ -111,7 +109,7 @@ static void __CopyDataToQueue( Queue_t * const pxQueue, const void *pvItemToQueu
 
     pxQueue->uItemCurCnt++;
 }
-static void __CopyDataFromQueue( Queue_t * const pxQueue, void * const pvBuffer )
+static void __CopyDataFromQueue( QueueInner_t * const pxQueue, void * const pvBuffer )
 {
     pxQueue->pcReadFrom += pxQueue->uxItemSize;
     
@@ -121,17 +119,17 @@ static void __CopyDataFromQueue( Queue_t * const pxQueue, void * const pvBuffer 
     if(pvBuffer)
         ( void ) memcpy( ( void * ) pvBuffer, ( void * ) pxQueue->pcReadFrom, ( size_t ) pxQueue->uxItemSize ); 
 }
-static void __InitialiseNewQueue(Queue_t *pxNewQueue, const uint32_t uxQueueItemCap, const uint32_t uxItemSize, uint8_t *pucQueueStorage)
+static void __InitialiseNewQueue(QueueInner_t *const pxNewQueue, const uint32_t uxQueueItemCap, const uint32_t uxItemSize, uint8_t *pucQueueStorage)
 {
     /* Set the head to the start of the queue storage area. */
     pxNewQueue->pcHead = ( int8_t * ) pucQueueStorage;
     pxNewQueue->uItemCap = uxQueueItemCap;
     pxNewQueue->uxItemSize = uxItemSize;
-    ( void ) queueReset( pxNewQueue );
+    ( void )queueReset( (queue_t *)pxNewQueue );
 }
-uint8_t xQueueGenericPut(const QueueHandle_t xQueue, const void * const pvItemToQueue , const uint8_t isFront )
+uint8_t xQueueGenericPut( queue_t *const xQueue, const void * const pvItemToQueue , const uint8_t isFront )
 {
-    Queue_t * const pxQueue = ( Queue_t * ) xQueue;
+    QueueInner_t * const pxQueue = ( QueueInner_t * ) xQueue;
 
     configASSERT( pxQueue );    
     configASSERT( pvItemToQueue );
@@ -148,10 +146,10 @@ uint8_t xQueueGenericPut(const QueueHandle_t xQueue, const void * const pvItemTo
     return FALSE;
 }
 
-uint8_t xQueueGenericPop(const QueueHandle_t xQueue, void * const pvBuffer, const uint8_t isJustPeeking )
+uint8_t xQueueGenericPop( queue_t *const xQueue, void * const pvBuffer, const uint8_t isJustPeeking )
 {
     int8_t *pcOriginalReadPosition;
-    Queue_t * const pxQueue = ( Queue_t * ) xQueue;
+    QueueInner_t * const pxQueue = ( QueueInner_t * ) xQueue;
 
     configASSERT( pxQueue );
 
@@ -176,10 +174,11 @@ uint8_t xQueueGenericPop(const QueueHandle_t xQueue, void * const pvBuffer, cons
     
     return FALSE;
 }
-void *xQueueOnAlloc(const QueueHandle_t xQueue , const uint8_t isFront )
+
+void *xQueueOnAlloc( queue_t *const xQueue , const uint8_t isFront )
 {
     int8_t *pcPutPosition;
-    Queue_t * const pxQueue = ( Queue_t * ) xQueue;
+    QueueInner_t * const pxQueue = ( QueueInner_t * ) xQueue;
 
     configASSERT( pxQueue );    
 
@@ -212,10 +211,10 @@ void *xQueueOnAlloc(const QueueHandle_t xQueue , const uint8_t isFront )
     return (void *)NULL;
 }
 
-void *queueOnPeek( QueueHandle_t xQueue )
+void *queueOnPeek( queue_t *const xQueue )
 {
     int8_t *pcpeekPosition;
-    Queue_t * const pxQueue = ( Queue_t * ) xQueue;
+    QueueInner_t * const pxQueue = ( QueueInner_t * ) xQueue;
 
     configASSERT( pxQueue );
 
@@ -234,28 +233,28 @@ void *queueOnPeek( QueueHandle_t xQueue )
 }
 
 
-uint32_t queueItemAvailableValid(const QueueHandle_t xQueue )
+uint32_t queueItemAvailableValid( queue_t *const xQueue )
 {
     configASSERT( xQueue );
 
-    return ( ( Queue_t * ) xQueue )->uItemCurCnt;
+    return ( ( QueueInner_t * ) xQueue )->uItemCurCnt;
 } 
 
-uint32_t queueItemAvailableIdle( const QueueHandle_t xQueue )
+uint32_t queueItemAvailableIdle( queue_t *const xQueue )
 {
-    Queue_t *pxQueue = ( Queue_t * ) xQueue;
+    QueueInner_t *pxQueue = ( QueueInner_t * ) xQueue;
 
     configASSERT( pxQueue );
 
     return (pxQueue->uItemCap - pxQueue->uItemCurCnt);
 }
 
-uint8_t queueIsEmpty( const QueueHandle_t xQueue )
+uint8_t queueIsEmpty( queue_t *const xQueue )
 {
-   return (uint8_t )( ( ( Queue_t * )xQueue )->uItemCurCnt == ( uint32_t )  0 );
+   return (uint8_t )( ( ( QueueInner_t * )xQueue )->uItemCurCnt == ( uint32_t )  0 );
 }
 
-uint8_t queueIsFull( const QueueHandle_t xQueue )
+uint8_t queueIsFull( queue_t *const xQueue )
 {
-        return (uint8_t )(( ( Queue_t *)xQueue )->uItemCurCnt == ( ( Queue_t *)xQueue )->uItemCap );
+        return (uint8_t )(( ( QueueInner_t *)xQueue )->uItemCurCnt == ( ( QueueInner_t *)xQueue )->uItemCap );
 }

@@ -70,7 +70,7 @@ static uint8_t key_pop(uint8_t *ptObj)
 #define KEY_DECETOR_REPEAT_PRESS        3 
 #define KEY_DECETOR_IS_UP               4
 
-void mkeyAssign(mkeycfgStatic_t *cfg, mKeyDownFunc_t IsmKeyDownFunc,
+void mkeyAssign(mkeycfg_t *cfg, mKeyDownFunc_t IsmKeyDownFunc,
                     uint8_t KeyCodeDown,uint8_t KeyCodeLong,uint8_t KeyCodeUp,
                     uint8_t filterTime,uint16_t longTime,uint8_t repeatSpeed)
 {

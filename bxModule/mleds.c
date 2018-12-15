@@ -16,8 +16,7 @@ static uint8_t CurledsOnOffstatus;  // 保存当前灯的状态
 static uint8_t PreledsBlinkstatus;  // 保存闪烁前的状态
 
 static ledcontrol_t ledseqControl[mLEDSNUM];
-static TimerStatic_t ledtimer;
-static TimerHandle_t ledhandle;
+static timer_t ledtimer;
 #endif
 static void ledlowOnOff( uint8_t leds, uint8_t val );
 
@@ -34,7 +33,7 @@ static void mledupdateCB(void *arg);
 void mledInit(void)
 {
 #if configBLINK_LED > 0
-    ledhandle = timerAssign(&ledtimer, mledupdateCB , (void *)&ledhandle);
+    timerAssign(&ledtimer, mledupdateCB , (void *)&ledtimer);
     
     memset(ledseqControl, 0, sizeof(ledcontrol_t) * mLEDSNUM );
  #endif   
@@ -168,7 +167,7 @@ void mledsetblink(uint8_t leds, uint8_t numBlinks, uint8_t duty, uint32_t period
             sts++;      //下一个灯
         }
         // blink it now
-        timerStart(ledhandle, 0);
+        timerStart(&ledtimer, 0);
     }
     else {
         mledset(leds, MLED_MODE_ON);
@@ -254,7 +253,7 @@ static void mledupdateCB(void *arg)
     }
 
     if(next){
-        timerRestart(*((TimerHandle_t *)arg), next);
+        timerRestart((timer_t *)arg, next);
     }
 }
 #endif
